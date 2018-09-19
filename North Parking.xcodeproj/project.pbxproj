@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D72E752C2151C45E00F9F252 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72E752B2151C45E00F9F252 /* CoreLocation.framework */; };
 		D762D52421519B6900635C9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D52321519B6900635C9E /* AppDelegate.swift */; };
 		D762D52621519B6900635C9E /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D52521519B6900635C9E /* FirstViewController.swift */; };
 		D762D52821519B6900635C9E /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D52721519B6900635C9E /* SecondViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D72E752B2151C45E00F9F252 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D762D52021519B6900635C9E /* North Parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "North Parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D762D52321519B6900635C9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D762D52521519B6900635C9E /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D72E752C2151C45E00F9F252 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D72E752A2151C45E00F9F252 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D72E752B2151C45E00F9F252 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D762D51721519B6900635C9E = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +94,7 @@
 				D762D53921519B6900635C9E /* North ParkingTests */,
 				D762D54421519B6900635C9E /* North ParkingUITests */,
 				D762D52121519B6900635C9E /* Products */,
+				D72E752A2151C45E00F9F252 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
