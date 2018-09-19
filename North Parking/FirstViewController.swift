@@ -18,9 +18,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     let screenSize = UIScreen.main.bounds
     
     
-    
     // Create UI
-    
     func createParkButton(){
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
@@ -35,6 +33,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         parkButton.addTarget(self, action: "park", for: UIControlEvents.touchUpInside)
         self.view.addSubview(parkButton)
     }
+    
     func createBanner(){
         let screenWidth = CGFloat(screenSize.width)
         let image: UIImage = UIImage(named: "Rectangle 6715")!
@@ -43,10 +42,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         self.view.addSubview(imageView)
 
     }
-    
-    
-    
-    
     
     // create circle
     func createCircle(){
@@ -69,11 +64,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         view.layer.addSublayer(shapeLayer)
     }
     
-
-    
-    
     // LOCATION
-    
     let locationManager = CLLocationManager()
     
     func locationSetup(){
@@ -96,7 +87,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -104,8 +94,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createParkButton()
         createCircle()
         createBanner()
-        
-        
         
     }
 
