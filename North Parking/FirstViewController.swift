@@ -41,6 +41,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let imageView = UIImageView(image: image)
         imageView.frame = CGRect(x: view.center.x - screenWidth/2, y: 0, width: screenWidth, height: 100)
         self.view.addSubview(imageView)
+        
+        print("Test toby")
 
     }
     
