@@ -13,7 +13,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     // VARS
     var parkButton = UIButton()
-    
+    let shapeLayer = CAShapeLayer()
+    let trackLayer = CAShapeLayer()
     let screenSize = UIScreen.main.bounds
     
     
@@ -23,15 +24,52 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     func createParkButton(){
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
+        
+        // change hard code --
         let buttonWidth = CGFloat(430)
         let buttonHeight = CGFloat(300)
         
         let image = UIImage(named: "Group 985") as UIImage?
-        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight/2 - buttonHeight/2, width: buttonWidth, height: buttonHeight)
+        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/2.75, width: buttonWidth, height: buttonHeight)
         parkButton.setImage(image, for: .normal)
         parkButton.addTarget(self, action: "park", for: UIControlEvents.touchUpInside)
         self.view.addSubview(parkButton)
     }
+    func createBanner(){
+        let screenWidth = CGFloat(screenSize.width)
+        let image: UIImage = UIImage(named: "Rectangle 6715")!
+        let imageView = UIImageView(image: image)
+        imageView.frame = CGRect(x: view.center.x - screenWidth/2, y: 0, width: screenWidth, height: 100)
+        self.view.addSubview(imageView)
+
+    }
+    
+    
+    
+    
+    
+    // create circle
+    func createCircle(){
+        let center = view.center
+        let adjectedCenter = CGPoint(x: center.x, y: center.y - 30)
+        let circlePath = UIBezierPath(arcCenter: adjectedCenter, radius: 140, startAngle: -CGFloat.pi / 2, endAngle: 2*CGFloat.pi, clockwise: true)
+        trackLayer.path = circlePath.cgPath
+        trackLayer.strokeColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+        trackLayer.lineWidth = 20
+        trackLayer.lineCap = kCALineCapRound
+        trackLayer.fillColor = UIColor.clear.cgColor
+        view.layer.addSublayer(trackLayer)
+        
+        shapeLayer.path = circlePath.cgPath
+        shapeLayer.strokeColor = UIColor(red: 122.0/255.0, green: 203.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+        shapeLayer.lineWidth = 20
+        shapeLayer.lineCap = kCALineCapRound
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeEnd = 0
+        view.layer.addSublayer(shapeLayer)
+    }
+    
+
     
     
     // LOCATION
@@ -64,7 +102,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
         locationSetup()
         createParkButton()
-        
+        createCircle()
+        createBanner()
         
         
         
@@ -74,6 +113,15 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     @objc func park() {
         print("PARK")
+        
+        // animate scircle
+        let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        basicAnimation.toValue = 1
+        basicAnimation.duration = 2
+        basicAnimation.fillMode = kCAFillModeForwards
+        basicAnimation.isRemovedOnCompletion = false
+        shapeLayer.add(basicAnimation, forKey: "urSoBasic")
+        
     }
 
 
