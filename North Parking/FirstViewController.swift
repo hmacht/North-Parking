@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import FirebaseDatabase
 
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -17,7 +18,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     let trackLayer = CAShapeLayer()
     let screenSize = UIScreen.main.bounds
     
-    
+    // Reference to server
+    var ref: DatabaseReference!
     
     // Create UI
     
@@ -34,6 +36,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         parkButton.setImage(image, for: .normal)
         parkButton.addTarget(self, action: "park", for: UIControlEvents.touchUpInside)
         self.view.addSubview(parkButton)
+        
+        
     }
     func createBanner(){
         let screenWidth = CGFloat(screenSize.width)
@@ -41,8 +45,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let imageView = UIImageView(image: image)
         imageView.frame = CGRect(x: view.center.x - screenWidth/2, y: 0, width: screenWidth, height: 100)
         self.view.addSubview(imageView)
-        
-        print("Test toby")
 
     }
     
@@ -107,8 +109,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createCircle()
         createBanner()
         
-        
-        
+        self.ref = Database.database().reference()
     }
 
     // ACTIONS
@@ -123,6 +124,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         basicAnimation.fillMode = kCAFillModeForwards
         basicAnimation.isRemovedOnCompletion = false
         shapeLayer.add(basicAnimation, forKey: "urSoBasic")
+        
+        self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
         
     }
 
