@@ -109,7 +109,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         basicAnimation.fillMode = kCAFillModeForwards
         basicAnimation.isRemovedOnCompletion = false
         shapeLayer.add(basicAnimation, forKey: "urSoBasic")
-        
+        // tesat
     }
 
 
