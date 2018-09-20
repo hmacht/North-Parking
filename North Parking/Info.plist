@@ -28,6 +28,10 @@
 	<string>Allow North Parking to acces your location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow North Parking to acces your location</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>CeraRound.otf</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
