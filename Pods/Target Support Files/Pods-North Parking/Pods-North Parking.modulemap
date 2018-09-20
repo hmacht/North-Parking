@@ -1,0 +1,6 @@
+framework module Pods_North_Parking {
+  umbrella header "Pods-North Parking-umbrella.h"
+
+  export *
+  module * { export * }
+}
