@@ -118,6 +118,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
         self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
         
+        print("henry comp")
     }
 
 
