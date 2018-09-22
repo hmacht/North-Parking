@@ -12,21 +12,39 @@ import FirebaseDatabase
 
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
+    let screenSize = UIScreen.main.bounds
+    
     // VARS
+    
+    // Buttons
     var parkButton = UIButton()
     var hullButton = UIButton()
     var lowellButton = UIButton()
     var closeButton = UIButton()
+    var settingsButton = UIButton()
+    var learnButton = UIButton()
+    
+    // Layers
     let shapeLayer = CAShapeLayer()
     let shapeLayer2 = CAShapeLayer()
     let trackLayer = CAShapeLayer()
-    let screenSize = UIScreen.main.bounds
+    
+    // Labels
+    var dashboardLabel = UILabel()
     var percentLabel = UILabel()
+    
+    // Image views
     var whiteSquare = UIImageView()
     var popUpBlackSquare = UIImageView()
     var key = UIImageView()
+    var logo = UIImageView()
+    var banner = UIImageView()
+    var status = UIImageView()
+    
+    // Bools
     var canPressPark = true
     
+    // Floats
     var circleRadius: CGFloat = 0
     
     var totalPercent: CGFloat = 0
@@ -46,13 +64,70 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var ref: DatabaseReference!
     
     // Create UI
+    func createStatusImg(){
+        let center = view.center
+        let image: UIImage = UIImage(named: "Group 987")!
+        status = UIImageView(image: image)
+        status.frame = CGRect(x: 0, y: 0, width: 65, height: 30)
+        status.center = CGPoint(x: screenSize.width - (status.frame.width/2) - 10, y: dashboardLabel.center.y)
+        status.contentMode = .scaleAspectFit
+        self.view.addSubview(status)
+    }
     
+    func createDashLabel(){
+        let center = view.center
+        let customFont = UIFont(name: "CeraRoundProDEMO-Black", size: 31)
+        dashboardLabel.frame = CGRect(x: 20, y: 0, width: 200, height: 100)
+        dashboardLabel.textAlignment = .left
+        dashboardLabel.center.y = banner.center.y + banner.frame.height/2 + 40
+        dashboardLabel.font = customFont
+        dashboardLabel.text = "Dashboard"
+        self.view.addSubview(dashboardLabel)
+    }
+    
+    func createLogo(){
+        let center = view.center
+        let image: UIImage = UIImage(named: "Group 988")!
+        logo = UIImageView(image: image)
+        logo.frame = CGRect(x: 0, y: 0, width: 50, height: 100)
+        logo.center = CGPoint(x: center.x, y: banner.center.y + 10)
+        logo.contentMode = .scaleAspectFit
+        self.view.addSubview(logo)
+    }
+    
+    func createSettingsButton(){
+        // change hard code --
+        let buttonWidth = CGFloat(50)
+        let buttonHeight = CGFloat(50)
+        
+        let image = UIImage(named: "Group 990") as UIImage?
+        settingsButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
+        settingsButton.center = CGPoint(x: logo.center.x - screenSize.width/3, y: logo.center.y)
+        settingsButton.setImage(image, for: .normal)
+        settingsButton.contentMode = .scaleAspectFit
+        settingsButton.addTarget(self, action: #selector(FirstViewController.goToSettings), for: UIControlEvents.touchUpInside)
+        settingsButton.layer.zPosition = 3
+        self.view.addSubview(settingsButton)
+    }
+    
+    func createLearnButton(){
+        // change hard code --
+        let buttonWidth = CGFloat(50)
+        let buttonHeight = CGFloat(50)
+        
+        let image = UIImage(named: "Group 989") as UIImage?
+        learnButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
+        learnButton.center = CGPoint(x: logo.center.x + screenSize.width/3, y: logo.center.y)
+        learnButton.setImage(image, for: .normal)
+        learnButton.contentMode = .scaleAspectFit
+        learnButton.addTarget(self, action: #selector(FirstViewController.goToHowto), for: UIControlEvents.touchUpInside)
+        learnButton.layer.zPosition = 3
+        self.view.addSubview(learnButton)
+    }
     
     // This is for the popup screen
     func createKey(){
         let center = view.center
-        let screenWidth = CGFloat(screenSize.width)
-        let screenHeight = CGFloat(screenSize.height)
         let image: UIImage = UIImage(named: "Group 991")!
         key = UIImageView(image: image)
         key.frame = CGRect(x: 0, y: 0, width: 130, height: 30)
@@ -62,9 +137,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func createClosePopupBtn(){
-        let screenWidth = CGFloat(screenSize.width)
-        let screenHeight = CGFloat(screenSize.height)
-        let center = view.center
         // change hard code --
         let buttonWidth = CGFloat(50)
         let buttonHeight = CGFloat(50)
@@ -72,14 +144,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         closeButton.frame = CGRect(x: whiteSquare.frame.width - 10 - buttonWidth, y: 10, width: buttonWidth, height: buttonHeight)
         closeButton.setImage(image, for: .normal)
         closeButton.contentMode = .scaleAspectFit
-        closeButton.addTarget(self, action: "closePopup", for: UIControlEvents.touchUpInside)
+        closeButton.addTarget(self, action: #selector(FirstViewController.closePopup), for: UIControlEvents.touchUpInside)
         closeButton.layer.zPosition = 2
         self.whiteSquare.addSubview(closeButton)
     }
     func createHullButton(){
-        let screenWidth = CGFloat(screenSize.width)
-        let screenHeight = CGFloat(screenSize.height)
-        let center = view.center
         // change hard code --
         let buttonWidth = CGFloat(200)
         let buttonHeight = CGFloat(70)
@@ -88,14 +157,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         hullButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 - buttonHeight - 5, width: buttonWidth, height: buttonHeight)
         hullButton.setImage(image, for: .normal)
         hullButton.contentMode = .scaleAspectFit
-        hullButton.addTarget(self, action: "hullPark", for: UIControlEvents.touchUpInside)
+        hullButton.addTarget(self, action: #selector(FirstViewController.hullPark), for: UIControlEvents.touchUpInside)
         hullButton.layer.zPosition = 3
         self.whiteSquare.addSubview(hullButton)
     }
     func createLowellButton(){
-        let screenWidth = CGFloat(screenSize.width)
-        let screenHeight = CGFloat(screenSize.height)
-        let center = view.center
         // change hard code --
         let buttonWidth = CGFloat(200)
         let buttonHeight = CGFloat(70)
@@ -104,7 +170,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         lowellButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 + 5, width: buttonWidth, height: buttonHeight)
         lowellButton.setImage(image, for: .normal)
         lowellButton.contentMode = .scaleAspectFit
-        lowellButton.addTarget(self, action: "lowellPark", for: UIControlEvents.touchUpInside)
+        lowellButton.addTarget(self, action: #selector(FirstViewController.lowellPark), for: UIControlEvents.touchUpInside)
         lowellButton.layer.zPosition = 3
         self.whiteSquare.addSubview(lowellButton)
     }
@@ -172,7 +238,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let image = UIImage(named: imageNmae) as UIImage?
         parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/2.75, width: buttonWidth, height: buttonHeight)
         parkButton.setImage(image, for: .normal)
-        parkButton.addTarget(self, action: "park", for: UIControlEvents.touchUpInside)
+        parkButton.addTarget(self, action: #selector(FirstViewController.park), for: UIControlEvents.touchUpInside)
         self.view.addSubview(parkButton)
         
         
@@ -180,10 +246,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     func createBanner(){
         let screenWidth = CGFloat(screenSize.width)
-        let image: UIImage = UIImage(named: "Rectangle 6715")!
-        let imageView = UIImageView(image: image)
-        imageView.frame = CGRect(x: view.center.x - screenWidth/2, y: 0, width: screenWidth, height: 100)
-        self.view.addSubview(imageView)
+        let image: UIImage = UIImage(named: "Rectangle 6719")!
+        banner = UIImageView(image: image)
+        banner.frame = CGRect(x: view.center.x - screenWidth/2, y: 0, width: screenWidth, height: 120)
+        self.view.addSubview(banner)
         
     }
     
@@ -253,7 +319,18 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createBanner()
         createPercentLabel()
         createKey()
+        createLogo()
+        createSettingsButton()
+        createLearnButton()
+        createDashLabel()
+        createStatusImg()
         
+        
+        self.tabBarController?.tabBar.layer.shadowColor = UIColor.black.cgColor
+        self.tabBarController?.tabBar.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        self.tabBarController?.tabBar.layer.shadowRadius = 7
+        self.tabBarController?.tabBar.layer.shadowOpacity = 0.1
+        self.tabBarController?.tabBar.layer.masksToBounds = false
         
         
         
@@ -343,7 +420,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             calculateTotalPercent()
             animateCircles()
             parked(name: "Group 985", status: false)
-            //isParked = false
         }
     
         self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
@@ -377,6 +453,16 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     @objc func closePopup() {
         print("close")
         closePopupWindow()
+    }
+    
+    @objc func goToSettings() {
+        print("Settings")
+        
+    }
+    
+    @objc func goToHowto() {
+        print("Howto")
+        
     }
     
     
