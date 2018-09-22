@@ -24,7 +24,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var percentLabel = UILabel()
     var whiteSquare = UIImageView()
     var popUpBlackSquare = UIImageView()
+    var key = UIImageView()
     var canPressPark = true
+    
+    var circleRadius: CGFloat = 0
     
     var totalPercent: CGFloat = 0
     var totalSpots: CGFloat = 100
@@ -42,8 +45,22 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     // Reference to server
     var ref: DatabaseReference!
     
-    
     // Create UI
+    
+    
+    // This is for the popup screen
+    func createKey(){
+        let center = view.center
+        let screenWidth = CGFloat(screenSize.width)
+        let screenHeight = CGFloat(screenSize.height)
+        let image: UIImage = UIImage(named: "Group 991")!
+        key = UIImageView(image: image)
+        key.frame = CGRect(x: 0, y: 0, width: 130, height: 30)
+        key.center = CGPoint(x: center.x, y: percentLabel.center.y + circleRadius + 50)
+        key.contentMode = .scaleAspectFit
+        self.view.addSubview(key)
+    }
+    
     func createClosePopupBtn(){
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
@@ -51,7 +68,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         // change hard code --
         let buttonWidth = CGFloat(50)
         let buttonHeight = CGFloat(50)
-        
         let image = UIImage(named: "Group 994") as UIImage?
         closeButton.frame = CGRect(x: whiteSquare.frame.width - 10 - buttonWidth, y: 10, width: buttonWidth, height: buttonHeight)
         closeButton.setImage(image, for: .normal)
@@ -132,6 +148,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createLowellButton()
         createClosePopupBtn()
     }
+    // end of code for pop up screen
+    
+    
     func createPercentLabel(){
         let center = view.center
         let adjectedCenter = CGPoint(x: center.x, y: center.y - 30)
@@ -140,18 +159,17 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         percentLabel.textAlignment = .center
         percentLabel.center = adjectedCenter
         percentLabel.font = customFont
-        percentLabel.text = "\(totalPercent)%"
+        percentLabel.text = "\(Int(totalPercent))%"
         self.view.addSubview(percentLabel)
     }
-    func createParkButton(){
+    
+    func createParkButton(imageNmae: String){
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
-        
         // change hard code --
         let buttonWidth = CGFloat(430)
         let buttonHeight = CGFloat(300)
-        
-        let image = UIImage(named: "Group 985") as UIImage?
+        let image = UIImage(named: imageNmae) as UIImage?
         parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/2.75, width: buttonWidth, height: buttonHeight)
         parkButton.setImage(image, for: .normal)
         parkButton.addTarget(self, action: "park", for: UIControlEvents.touchUpInside)
@@ -171,9 +189,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     // create circle
     func createCircle(){
+        circleRadius = (screenSize.width - (screenSize.width/5)) / 2
         let center = view.center
         let adjectedCenter = CGPoint(x: center.x, y: center.y - 30)
-        let circlePath = UIBezierPath(arcCenter: adjectedCenter, radius: 140, startAngle: -CGFloat.pi / 2, endAngle: 2*CGFloat.pi, clockwise: true)
+        let circlePath = UIBezierPath(arcCenter: adjectedCenter, radius: circleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2*CGFloat.pi, clockwise: true)
+        
+        // The three layers for the large center circle
         trackLayer.path = circlePath.cgPath
         trackLayer.strokeColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
         trackLayer.lineWidth = 20
@@ -189,6 +210,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         shapeLayer.strokeEnd = 0
         view.layer.addSublayer(shapeLayer)
         
+        
         shapeLayer2.path = circlePath.cgPath
         shapeLayer2.strokeColor = UIColor(red: 82.0/255.0, green: 106.0/255.0, blue: 246.0/255.0, alpha: 1.0).cgColor
         shapeLayer2.lineWidth = 20
@@ -197,6 +219,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         shapeLayer2.strokeEnd = 0
         view.layer.addSublayer(shapeLayer2)
     }
+    
+    // end of UI creations
     
     // LOCATION
     let locationManager = CLLocationManager()
@@ -207,7 +231,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
         // For use in foreground
         self.locationManager.requestWhenInUseAuthorization()
-        
+
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -224,10 +248,20 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationSetup()
-        createParkButton()
+        createParkButton(imageNmae: "Group 985")
         createCircle()
         createBanner()
         createPercentLabel()
+        createKey()
+        
+        
+        
+        
+        // NEED TO PULL hullTakenSpots VALUE --------------------------------------------------
+        // NEED TO PULL lowellTakenSpots VALUE --------------------------------------------------
+        // NEED TO PULL totalPercent VALUE --------------------------
+        
+        
         
         
         self.ref = Database.database().reference()
@@ -235,63 +269,32 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     // ACTIONS
+    
     func animateCircles(){
         let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
         basicAnimation.toValue = lowellTotalPercent*0.8
         basicAnimation.duration = 1.5
         basicAnimation.fillMode = kCAFillModeForwards
         basicAnimation.isRemovedOnCompletion = false
-        shapeLayer.add(basicAnimation, forKey: "urSoBasic")
-        basicAnimation.toValue = hullTotalPercent*0.8
         shapeLayer2.add(basicAnimation, forKey: "urSoBasic")
+        basicAnimation.toValue = hullTotalPercent*0.8
+        shapeLayer .add(basicAnimation, forKey: "urSoBasic")
     }
-    func calculatePercent(streetPercent: inout CGFloat, streetTotal: inout CGFloat, streetTakenSpots: inout CGFloat){
-        streetTakenSpots += 1
+    func calculatePercent(streetPercent: inout CGFloat, streetTotal: inout CGFloat, streetTakenSpots: inout CGFloat, comingOrGoing: CGFloat){
+        // This is where we calsulate the total percent after someone comes or goes
+        streetTakenSpots += comingOrGoing
         streetPercent = streetTakenSpots / streetTotal
         
-        
+        // NEED TO PUSH streetPercent VALUE   --------------------------------------------------
+ 
     }
     func calculateTotalPercent(){
-        print("\(takenSpots) -----")
+        // This calculates the overall percent of spats taken
         takenSpots = hullTakenSpots + lowellTakenSpots
         percentLabel.text = "\(Int((takenSpots/totalSpots)*100))%"
     }
-    
-    @objc func park() {
-        print("PARK")
-        
-        // animate scircle
-        if canPressPark{
-            createPopUp()
-            canPressPark = false
-        }
-        
-        
-        self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
-        
-    }
-    @objc func hullPark() {
-        print("Hull")
-        if hullTakenSpots < hullTotalSpots{
-            calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots)
-            animateCircles()
-            closePopupWindow()
-            calculateTotalPercent()
-        }
-    }
-    @objc func lowellPark() {
-        print("Lowell")
-        if lowellTakenSpots < lowellTotalSpots{
-            calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots)
-            animateCircles()
-            closePopupWindow()
-            calculateTotalPercent()
-        }
-    }
     func closePopupWindow(){
-        createParkButton()
-        
-        
+        createParkButton(imageNmae: "Group 985")
         UIView.animate(withDuration: 0.5, animations: {
             self.whiteSquare.frame.origin.y += (self.screenSize.height/2.5 + 5)
             self.popUpBlackSquare.alpha = 0.0
@@ -303,15 +306,81 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             self.tabBarController?.tabBar.layer.zPosition = 0
             self.parkButton.isUserInteractionEnabled = true
             self.canPressPark = true
-            // the code you put here will be executed when your animation finishes, therefore
-            // call your function here
         })
+    }
+    var isParked = false
+    var streetParkedOn = "None"
+    
+    // This changes the image of the park buton to leave or vis versa
+    func parked(name: String, status: Bool){
+        parkButton.removeFromSuperview()
+        createParkButton(imageNmae: name)
+        isParked = status
+        
+    }
+    
+    @objc func park() {
+        // Check to see if user is parked
+        if isParked == false{
+            print("PARK")
+            // prevents user from clicking park button before animation is complete (the white square will freeze without this)
+            if canPressPark{
+                // creates the pop up window
+                createPopUp()
+                canPressPark = false
+            }
+            isParked = true
+        }else{
+            print("Leave")
+            // Checks what street the user is on
+            if streetParkedOn == "Hull"{
+                // Calculates all the percentages needed
+                // -1 is for subtracting from taken spots var
+                calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: -1)
+            }else{
+                calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: -1)
+            }
+            calculateTotalPercent()
+            animateCircles()
+            parked(name: "Group 985", status: false)
+            isParked = false
+        }
+    
+        self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
+        
+    }
+    
+    @objc func hullPark() {
+        print("Hull")
+        if hullTakenSpots < hullTotalSpots{
+            calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: 1)
+            animateCircles()
+            closePopupWindow()
+            calculateTotalPercent()
+            parked(name: "Group 998", status: true)
+            streetParkedOn = "Hull"
+        }
+    }
+    
+    @objc func lowellPark() {
+        print("Lowell")
+        if lowellTakenSpots < lowellTotalSpots{
+            calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: 1)
+            animateCircles()
+            closePopupWindow()
+            calculateTotalPercent()
+            parked(name: "Group 998", status: true)
+            streetParkedOn = "Lowell"
+        }
     }
     
     @objc func closePopup() {
         print("close")
         closePopupWindow()
     }
+    
+    
+    
     
     
 }
