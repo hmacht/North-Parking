@@ -30,15 +30,15 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var circleRadius: CGFloat = 0
     
     var totalPercent: CGFloat = 0
-    var totalSpots: CGFloat = 100
+    var totalSpots: CGFloat = 83
     var takenSpots: CGFloat = 0
     
     var hullTotalPercent: CGFloat = 0
-    var hullTotalSpots: CGFloat = 80
+    var hullTotalSpots: CGFloat = 53
     var hullTakenSpots: CGFloat = 0
     
     var lowellTotalPercent: CGFloat = 0
-    var lowellTotalSpots: CGFloat = 20
+    var lowellTotalSpots: CGFloat = 30
     var lowellTakenSpots: CGFloat = 0
     
     
@@ -329,7 +329,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 createPopUp()
                 canPressPark = false
             }
-            isParked = true
+            //isParked = true
         }else{
             print("Leave")
             // Checks what street the user is on
@@ -343,7 +343,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             calculateTotalPercent()
             animateCircles()
             parked(name: "Group 985", status: false)
-            isParked = false
+            //isParked = false
         }
     
         self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
