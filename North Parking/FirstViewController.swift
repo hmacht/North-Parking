@@ -23,6 +23,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var closeButton = UIButton()
     var settingsButton = UIButton()
     var learnButton = UIButton()
+    var closeSplashButton = UIButton()
     
     // Layers
     let shapeLayer = CAShapeLayer()
@@ -32,6 +33,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     // Labels
     var dashboardLabel = UILabel()
     var percentLabel = UILabel()
+    var filledLabel = UILabel()
+    var parkedLab = UILabel()
     
     // Image views
     var whiteSquare = UIImageView()
@@ -41,8 +44,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var banner = UIImageView()
     var status = UIImageView()
     
+    var circle = UIView()
+    
     // Bools
     var canPressPark = true
+    var closeSplash = false
     
     // Floats
     var circleRadius: CGFloat = 0
@@ -64,6 +70,76 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var ref: DatabaseReference!
     
     // Create UI
+    
+    func createCloseSplashBtn(){
+        let image = UIImage(named: "Group 1116") as UIImage?
+        closeSplashButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        closeSplashButton.center = CGPoint(x: view.center.x, y: view.center.y + screenSize.height / 3)
+        closeSplashButton.setImage(image, for: .normal)
+        closeSplashButton.contentMode = .scaleAspectFit
+        closeSplashButton.addTarget(self, action: #selector(FirstViewController.closeSplashScreen), for: UIControlEvents.touchUpInside)
+        closeSplashButton.layer.zPosition = 21
+        self.view.addSubview(closeSplashButton)
+    }
+    
+    func createParkedLab(){
+        let center = view.center
+        let customFont = UIFont(name: "CeraRoundProDEMO-Black", size: 45)
+        parkedLab.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        parkedLab.textAlignment = .center
+        parkedLab.center = center
+        parkedLab.font = customFont
+        parkedLab.textColor = .white
+        parkedLab.text = "Parked!"
+        parkedLab.layer.zPosition = 21
+        self.view.addSubview(parkedLab)
+        
+    }
+    
+    func createSplash(){
+        let circleRect = CGRect(x: view.center.x, y: view.center.y, width: 100, height: 100)
+        circle = UIView(frame: circleRect)
+        circle.backgroundColor = UIColor(red: 86.0/255.0, green: 106.0/255.0, blue: 246.0/255.0, alpha: 1.0)
+        circle.center = view.center
+        circle.layer.cornerRadius = 50
+        circle.layer.borderColor = UIColor.clear.cgColor
+        circle.layer.zPosition = 20
+        view.addSubview(circle)
+        closeSplash = true
+        UIView.animate(withDuration: 1.0, animations: {
+            self.circle.frame.size = CGSize(width: self.screenSize.height * 2, height: self.screenSize.height * 2)
+            self.circle.center = self.view.center
+            self.circle.layer.cornerRadius = self.circle.frame.size.height / 2
+        }, completion: {finished in
+            self.createParkedLab()
+            self.createCloseSplashBtn()
+            UIView.animate(withDuration: 0.5, delay: 0, animations: {
+                UIView.setAnimationRepeatCount(1)
+                self.parkedLab.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                //self.closeSplashButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }, completion: {completion in
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.parkedLab.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    //self.closeSplashButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+                }, completion: nil)
+                
+            })
+            
+        })
+    }
+    
+    func createFillLabel(){
+        let center = view.center
+        let customFont = UIFont(name: "CeraRoundProDEMO-Black", size: 20)
+        filledLabel.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        filledLabel.textAlignment = .center
+        filledLabel.center = CGPoint(x: percentLabel.center.x, y: percentLabel.center.y + 40)
+        filledLabel.font = customFont
+        filledLabel.textColor = UIColor(red: 232.0/255.0, green: 232.0/255.0, blue: 232.0/255.0, alpha: 1.0)
+        filledLabel.text = "Filled"
+        self.view.addSubview(filledLabel)
+    }
+    
     func createStatusImg(){
         let center = view.center
         let image: UIImage = UIImage(named: "Group 987")!
@@ -233,10 +309,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
         // change hard code --
-        let buttonWidth = CGFloat(430)
-        let buttonHeight = CGFloat(300)
+        let buttonWidth = CGFloat(200)
+        let buttonHeight = CGFloat(100)
         let image = UIImage(named: imageNmae) as UIImage?
-        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/2.75, width: buttonWidth, height: buttonHeight)
+        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/4, width: buttonWidth, height: buttonHeight)
         parkButton.setImage(image, for: .normal)
         parkButton.addTarget(self, action: #selector(FirstViewController.park), for: UIControlEvents.touchUpInside)
         self.view.addSubview(parkButton)
@@ -314,7 +390,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         locationSetup()
-        createParkButton(imageNmae: "Group 985")
+        createParkButton(imageNmae: "Group 1122")
         createCircle()
         createBanner()
         createPercentLabel()
@@ -324,14 +400,17 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createLearnButton()
         createDashLabel()
         createStatusImg()
+        createFillLabel()
         
+        // Add shadow to tab bar
         
+        /*
         self.tabBarController?.tabBar.layer.shadowColor = UIColor.black.cgColor
         self.tabBarController?.tabBar.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         self.tabBarController?.tabBar.layer.shadowRadius = 7
         self.tabBarController?.tabBar.layer.shadowOpacity = 0.1
         self.tabBarController?.tabBar.layer.masksToBounds = false
-        
+        */
         
         
         // NEED TO PULL hullTakenSpots VALUE --------------------------------------------------
@@ -370,8 +449,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         takenSpots = hullTakenSpots + lowellTakenSpots
         percentLabel.text = "\(Int((takenSpots/totalSpots)*100))%"
     }
-    func closePopupWindow(){
-        createParkButton(imageNmae: "Group 985")
+    
+    func closePopupWindow(showTabBar: Bool){
+        createParkButton(imageNmae: "Group 1122")
         UIView.animate(withDuration: 0.5, animations: {
             self.whiteSquare.frame.origin.y += (self.screenSize.height/2.5 + 5)
             self.popUpBlackSquare.alpha = 0.0
@@ -380,7 +460,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             self.lowellButton.removeFromSuperview()
             self.whiteSquare.removeFromSuperview()
             self.popUpBlackSquare.removeFromSuperview()
-            self.tabBarController?.tabBar.layer.zPosition = 0
+            if showTabBar{
+                self.tabBarController?.tabBar.layer.zPosition = 0
+            }
             self.parkButton.isUserInteractionEnabled = true
             self.canPressPark = true
         })
@@ -419,7 +501,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             }
             calculateTotalPercent()
             animateCircles()
-            parked(name: "Group 985", status: false)
+            parked(name: "Group 1122", status: false)
         }
     
         self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
@@ -431,10 +513,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         if hullTakenSpots < hullTotalSpots{
             calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: 1)
             animateCircles()
-            closePopupWindow()
+            closePopupWindow(showTabBar: false)
             calculateTotalPercent()
-            parked(name: "Group 998", status: true)
+            parked(name: "Group 1123", status: true)
             streetParkedOn = "Hull"
+            createSplash()
+            
         }
     }
     
@@ -443,16 +527,17 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         if lowellTakenSpots < lowellTotalSpots{
             calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: 1)
             animateCircles()
-            closePopupWindow()
+            closePopupWindow(showTabBar: false)
             calculateTotalPercent()
-            parked(name: "Group 998", status: true)
+            parked(name: "Group 1123", status: true)
             streetParkedOn = "Lowell"
+            createSplash()
         }
     }
     
     @objc func closePopup() {
         print("close")
-        closePopupWindow()
+        closePopupWindow(showTabBar: true)
     }
     
     @objc func goToSettings() {
@@ -465,6 +550,23 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
+    @objc func closeSplashScreen() {
+        print("closeSplash")
+        if closeSplash{
+            print("Hi")
+            circle.removeFromSuperview()
+            parkedLab.removeFromSuperview()
+            closeSplashButton.removeFromSuperview()
+            closeSplash = false
+            self.tabBarController?.tabBar.layer.zPosition = 0
+        }
+        
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first!
+        
+        
+    }
     
     
     

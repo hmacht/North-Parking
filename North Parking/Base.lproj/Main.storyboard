@@ -25,7 +25,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eFg-mI-Tkk"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Group 1013" selectedImage="Group 1016" id="zFp-VY-taY"/>
+                    <tabBarItem key="tabBarItem" title="" image="Group 1115" selectedImage="Group 1115-1" id="zFp-VY-taY"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y4S-ID-Zs6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -41,7 +41,9 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Group 1095" selectedImage="Group 1092" id="GfG-6e-1JU"/>
+                    <tabBarItem key="tabBarItem" title="" image="Group 1114" selectedImage="Group 1114-1" id="GfG-6e-1JU">
+                        <color key="badgeColor" red="0.14657577869999999" green="0.1703696847" blue="0.28681799769999999" alpha="1" colorSpace="deviceRGB"/>
+                    </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -56,8 +58,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Comming Soon!" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="53.5" y="316" width="268.5" height="35"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Coming Soon!" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
+                                <rect key="frame" x="69.5" y="316" width="236.5" height="35"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="CeraRoundProDEMO-Black" family="Cera Round Pro DEMO" pointSize="35"/>
                                 <color key="textColor" red="0.32156862745098036" green="0.41568627450980389" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
@@ -79,7 +81,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Group 1011" selectedImage="Group 1014" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="" image="Group 1113" selectedImage="Group 1113-1" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -109,12 +111,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Group 1011" width="30.5" height="23"/>
-        <image name="Group 1013" width="26.5" height="26.5"/>
-        <image name="Group 1014" width="30.5" height="23"/>
-        <image name="Group 1016" width="26.5" height="26.5"/>
-        <image name="Group 1092" width="26.5" height="26.5"/>
-        <image name="Group 1095" width="26.5" height="26.5"/>
+        <image name="Group 1113" width="28.5" height="25"/>
+        <image name="Group 1113-1" width="28.5" height="25"/>
+        <image name="Group 1114" width="26.5" height="29"/>
+        <image name="Group 1114-1" width="26.5" height="29"/>
+        <image name="Group 1115" width="31" height="31.5"/>
+        <image name="Group 1115-1" width="31" height="31.5"/>
         <image name="Rectangle 6667" width="419.5" height="239.5"/>
     </resources>
 </document>
