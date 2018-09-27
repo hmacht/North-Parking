@@ -10,6 +10,11 @@ import UIKit
 import CoreLocation
 import FirebaseDatabase
 
+enum ParkingLocation: String {
+    case Hull = "Hull"
+    case Lowell = "Lowell"
+}
+
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     let screenSize = UIScreen.main.bounds
@@ -422,6 +427,27 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
         self.ref = Database.database().reference()
         
+        // To get numbers for a parking spot
+        // Can change to .Lowell to get values for Lowell
+        self.getSpotsFromServer(location: .Hull) { (n) in
+            print(n, "spots in hull")
+            
+            // IMPORTANT
+            // If updating UI in this closure
+            // Must use
+            //DispatchQueue.main.async {
+            //}
+            // And run code in that to upate any UI
+            // This is because you are reaching server in background thread, and cant update ui in background
+        }
+        
+        // For updating spots, write to server
+        self.updateSpots(location: .Hull) { (error) in
+            if let e = error {
+                // There was an error
+            }
+        }
+        
     }
     
     // ACTIONS
@@ -566,6 +592,33 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let touch = touches.first!
         
         
+    }
+    
+    func getSpotsFromServer(location: ParkingLocation, completion: @escaping (Int) -> Void) {
+        ref.child("SpotsTaken").observeSingleEvent(of: .value) { (snapshot) in
+            if let v = snapshot.value as? NSDictionary {
+                if let n = v[location.rawValue] as? Int {
+                    completion(n)
+                } else {
+                    completion(0)
+                }
+            }
+        }
+    }
+    
+    func updateSpots(location: ParkingLocation, completion: @escaping(Error?) -> Void) {
+        ref.child("SpotsTaken").runTransactionBlock({ (data) -> TransactionResult in
+            if var v = data.value as? [String: AnyObject] {
+                let spots = v[location.rawValue] as! Int
+                v[location.rawValue] = spots + 1 as AnyObject
+                
+                data.value = v
+                return TransactionResult.success(withValue: data)
+            }
+            return TransactionResult.success(withValue: data)
+        }) { (error, b, snapshot) in
+            completion(error)
+        }
     }
     
     
