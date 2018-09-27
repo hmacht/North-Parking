@@ -12,14 +12,16 @@
 		B8E14C6D74A29A2B09D2C9F7 /* Pods_North_ParkingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6E32E4A49C0A84892077282 /* Pods_North_ParkingTests.framework */; };
 		C332636E47328B7ACEFD6B3F /* Pods_North_Parking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45551D5D9C839FAFED2CE1B9 /* Pods_North_Parking.framework */; };
 		D72E752C2151C45E00F9F252 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72E752B2151C45E00F9F252 /* CoreLocation.framework */; };
+		D73781482156E011004650BB /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D52721519B6900635C9E /* SecondViewController.swift */; };
+		D74E05EF21543C7C006C5CC7 /* CeraRound.otf in Resources */ = {isa = PBXBuildFile; fileRef = D74E05EE21543C7C006C5CC7 /* CeraRound.otf */; };
 		D762D52421519B6900635C9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D52321519B6900635C9E /* AppDelegate.swift */; };
 		D762D52621519B6900635C9E /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D52521519B6900635C9E /* FirstViewController.swift */; };
-		D762D52821519B6900635C9E /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D52721519B6900635C9E /* SecondViewController.swift */; };
 		D762D52B21519B6900635C9E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D762D52921519B6900635C9E /* Main.storyboard */; };
 		D762D52D21519B6900635C9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D762D52C21519B6900635C9E /* Assets.xcassets */; };
 		D762D53021519B6900635C9E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D762D52E21519B6900635C9E /* LaunchScreen.storyboard */; };
 		D762D53B21519B6900635C9E /* North_ParkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D53A21519B6900635C9E /* North_ParkingTests.swift */; };
 		D762D54621519B6900635C9E /* North_ParkingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D762D54521519B6900635C9E /* North_ParkingUITests.swift */; };
+		D7C9D14B2156BC41009AFBDB /* TwoHourParkingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9D14A2156BC41009AFBDB /* TwoHourParkingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,7 @@
 		926CF4AEC214E64887E3BDBC /* Pods-North Parking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-North Parking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-North Parking/Pods-North Parking.debug.xcconfig"; sourceTree = "<group>"; };
 		B32BEA662B987F96D80D4B19 /* Pods-North ParkingUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-North ParkingUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-North ParkingUITests/Pods-North ParkingUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D72E752B2151C45E00F9F252 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		D74E05EE21543C7C006C5CC7 /* CeraRound.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CeraRound.otf; sourceTree = "<group>"; };
 		D762D52021519B6900635C9E /* North Parking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "North Parking.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D762D52321519B6900635C9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D762D52521519B6900635C9E /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +67,7 @@
 		D762D54121519B6900635C9E /* North ParkingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "North ParkingUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D762D54521519B6900635C9E /* North_ParkingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = North_ParkingUITests.swift; sourceTree = "<group>"; };
 		D762D54721519B6900635C9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7C9D14A2156BC41009AFBDB /* TwoHourParkingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoHourParkingViewController.swift; sourceTree = "<group>"; };
 		E6E32E4A49C0A84892077282 /* Pods_North_ParkingTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_North_ParkingTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -147,12 +151,14 @@
 			children = (
 				D762D52321519B6900635C9E /* AppDelegate.swift */,
 				D762D52521519B6900635C9E /* FirstViewController.swift */,
+				D7C9D14A2156BC41009AFBDB /* TwoHourParkingViewController.swift */,
 				D762D52721519B6900635C9E /* SecondViewController.swift */,
 				D762D52921519B6900635C9E /* Main.storyboard */,
 				D762D52C21519B6900635C9E /* Assets.xcassets */,
 				D762D52E21519B6900635C9E /* LaunchScreen.storyboard */,
 				D762D53121519B6900635C9E /* Info.plist */,
 				21371E0D2151DDE70008E640 /* GoogleService-Info.plist */,
+				D74E05EE21543C7C006C5CC7 /* CeraRound.otf */,
 			);
 			path = "North Parking";
 			sourceTree = "<group>";
@@ -286,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D74E05EF21543C7C006C5CC7 /* CeraRound.otf in Resources */,
 				D762D53021519B6900635C9E /* LaunchScreen.storyboard in Resources */,
 				21371E0E2151DDE70008E640 /* GoogleService-Info.plist in Resources */,
 				D762D52D21519B6900635C9E /* Assets.xcassets in Resources */,
@@ -409,8 +416,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D762D52821519B6900635C9E /* SecondViewController.swift in Sources */,
+				D73781482156E011004650BB /* SecondViewController.swift in Sources */,
 				D762D52421519B6900635C9E /* AppDelegate.swift in Sources */,
+				D7C9D14B2156BC41009AFBDB /* TwoHourParkingViewController.swift in Sources */,
 				D762D52621519B6900635C9E /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -579,7 +587,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SWYGWFGR5M;
+				DEVELOPMENT_TEAM = 38ZEQFSP28;
 				INFOPLIST_FILE = "North Parking/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "HT-Developement.North-Parking";
@@ -595,7 +603,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SWYGWFGR5M;
+				DEVELOPMENT_TEAM = 38ZEQFSP28;
 				INFOPLIST_FILE = "North Parking/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "HT-Developement.North-Parking";
