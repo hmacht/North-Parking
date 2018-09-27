@@ -106,8 +106,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         circle.layer.zPosition = 20
         view.addSubview(circle)
         closeSplash = true
-        UIView.animate(withDuration: 1.0, animations: {
-            self.circle.frame.size = CGSize(width: self.screenSize.height * 2, height: self.screenSize.height * 2)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.circle.frame.size = CGSize(width: self.screenSize.height * 1.2, height: self.screenSize.height * 1.2)
             self.circle.center = self.view.center
             self.circle.layer.cornerRadius = self.circle.frame.size.height / 2
         }, completion: {finished in
@@ -175,7 +175,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         // change hard code --
         let buttonWidth = CGFloat(50)
         let buttonHeight = CGFloat(50)
-        
         let image = UIImage(named: "Group 990") as UIImage?
         settingsButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
         settingsButton.center = CGPoint(x: logo.center.x - screenSize.width/3, y: logo.center.y)
