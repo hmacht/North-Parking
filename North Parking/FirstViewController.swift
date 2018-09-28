@@ -538,8 +538,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             animateCircles()
             parked(name: "Group 1122", status: false)
         }
-    
-        self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
         
     }
     

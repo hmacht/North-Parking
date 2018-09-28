@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     // TODO- handle error
                 }
             }
-        }else{ // Vegetable
+        } else { // Vegetable
             print("park lowell")
             NetworkHelper.instance.updateSpots(location: .Lowell) { (error) in
                 if let e = error {
