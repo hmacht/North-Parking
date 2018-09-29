@@ -8,9 +8,10 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
@@ -18,7 +19,84 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        // Request permission to send notifications
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (authorized:Bool, error:Error?) in
+            if !authorized {
+                // Handle situation
+                print("App is useless because you did not allow notifications.")
+            }
+        }
+        
+        // Define Actions
+        let hullAction = UNNotificationAction(identifier: "hull", title: "Parked on Hull", options: [])
+        let lowellAction = UNNotificationAction(identifier: "lowell", title: "Parked on Lowell", options: [])
+        
+        
+        // Add actions to a foodCategeroy
+        let category = UNNotificationCategory(identifier: "parkingCategory", actions: [hullAction, lowellAction], intentIdentifiers: [], options: [])
+        
+        // Add the foodCategory to Notification Framwork
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
         return true
+    }
+    
+    func scheduleNotification() {
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Trigger notification in 5 seconds
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Park"
+        content.body = "Have you parked your car?"
+        content.sound = UNNotificationSound.default()
+        content.categoryIdentifier = "parkingCategory"
+        
+        guard let path = Bundle.main.path(forResource: "ParkImage", ofType: "png") else {return}
+        let url = URL(fileURLWithPath: path)
+        
+        do {
+            let attachment = try UNNotificationAttachment(identifier: "img", url: url, options: nil)
+            content.attachments = [attachment]
+        }catch{
+            print("The attachment could not be loaded")
+        }
+        
+        let request = UNNotificationRequest(identifier: "parkingNotification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().add(request) { (error:Error?) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+        }
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        
+        if response.actionIdentifier == "hull" {
+            print("park hull")
+            NetworkHelper.instance.updateSpots(location: .Hull) { (error) in
+                if let e = error {
+                    // TODO- handle error
+                }
+            }
+        } else { // Vegetable
+            print("park lowell")
+            NetworkHelper.instance.updateSpots(location: .Lowell) { (error) in
+                if let e = error {
+                    // TODO- handle error
+                }
+            }
+        }
+        
+        completionHandler()
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -41,6 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 
 

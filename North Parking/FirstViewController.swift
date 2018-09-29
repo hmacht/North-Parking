@@ -17,6 +17,9 @@ enum ParkingLocation: String {
 
 class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
+    // Reference to app delegate
+    var appDelegate = UIApplication.shared.delegate as? AppDelegate
+    
     let screenSize = UIScreen.main.bounds
     
     // VARS
@@ -388,7 +391,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     // called to pulll gps data
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
     override func viewDidLoad() {
@@ -509,6 +512,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc func park() {
+        
+        // Send test notification
+        print("Send test notification")
+        appDelegate?.scheduleNotification()
+        
+        
         // Check to see if user is parked
         if isParked == false{
             print("PARK")
@@ -543,8 +552,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             animateCircles()
             parked(name: "Group 1122", status: false)
         }
-    
-        self.ref.child("test").childByAutoId().setValue(["name": "Toby"])
         
     }
     
