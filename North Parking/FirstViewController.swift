@@ -430,22 +430,27 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         // Can change to .Lowell to get values for Lowell
         self.getSpotsFromServer(location: .Hull) { (n) in
             print(n, "spots in hull")
+            self.hullTakenSpots = CGFloat(n)
+            self.calculateTotalPercent()
             
+            print(self.hullTakenSpots)
             // IMPORTANT
             // If updating UI in this closure
             // Must use
             //DispatchQueue.main.async {
+            self.animateCircles()
             //}
             // And run code in that to upate any UI
             // This is because you are reaching server in background thread, and cant update ui in background
         }
-        
+        /*
         // For updating spots, write to server
         self.updateSpots(location: .Hull) { (error) in
             if let e = error {
                 // There was an error
             }
         }
+        */
         
     }
     
@@ -521,8 +526,18 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 // Calculates all the percentages needed
                 // -1 is for subtracting from taken spots var
                 calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: -1)
+                self.updateSpots(adding: -1, location: .Hull) { (error) in
+                    if let e = error {
+                        // There was an error
+                    }
+                }
             }else{
                 calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: -1)
+                self.updateSpots(adding: -1, location: .Lowell) { (error) in
+                    if let e = error {
+                        // There was an error
+                    }
+                }
             }
             calculateTotalPercent()
             animateCircles()
@@ -543,7 +558,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             parked(name: "Group 1123", status: true)
             streetParkedOn = "Hull"
             createSplash()
-            
+            self.updateSpots(adding: 1, location: .Hull) { (error) in
+                if let e = error {
+                    // There was an error
+                }
+            }
         }
     }
     
@@ -557,6 +576,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             parked(name: "Group 1123", status: true)
             streetParkedOn = "Lowell"
             createSplash()
+            self.updateSpots(adding: 1, location: .Lowell) { (error) in
+                if let e = error {
+                    // There was an error
+                }
+            }
         }
     }
     
@@ -605,11 +629,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func updateSpots(location: ParkingLocation, completion: @escaping(Error?) -> Void) {
+    func updateSpots(adding: Int, location: ParkingLocation, completion: @escaping(Error?) -> Void) {
         ref.child("SpotsTaken").runTransactionBlock({ (data) -> TransactionResult in
             if var v = data.value as? [String: AnyObject] {
                 let spots = v[location.rawValue] as! Int
-                v[location.rawValue] = spots + 1 as AnyObject
+                v[location.rawValue] = spots + adding as AnyObject
                 
                 data.value = v
                 return TransactionResult.success(withValue: data)
