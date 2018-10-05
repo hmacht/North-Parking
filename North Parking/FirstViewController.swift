@@ -32,6 +32,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var settingsButton = UIButton()
     var learnButton = UIButton()
     var closeSplashButton = UIButton()
+    var menuButton = UIButton()
     
     // Layers
     let shapeLayer = CAShapeLayer()
@@ -43,6 +44,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var percentLabel = UILabel()
     var filledLabel = UILabel()
     var parkedLab = UILabel()
+    var titleLabel = UILabel()
+    var parkPopLabel = UILabel()
+    var whichStreetLabel = UILabel()
     
     // Image views
     var whiteSquare = UIImageView()
@@ -78,6 +82,39 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var ref: DatabaseReference!
     
     // Create UI
+    
+    func createTitle(){
+        let center = view.center
+        titleLabel.frame = CGRect(x: screenSize.width/15, y: 50, width: 200, height: 100)
+        titleLabel.textAlignment = .left
+        //titleLabel.center = CGPoint(x: center.x - screenSize.width/4, y: 100)
+        titleLabel.font = UIFont(name: "Avenir-Black", size: 31)
+        titleLabel.textColor = .black
+        titleLabel.text = "Hello, 👋 \nTime To Park"
+        titleLabel.numberOfLines = 2
+        self.view.addSubview(titleLabel)
+    }
+    
+    func createMenuButton(){
+        let image = UIImage(named: "Group 1166") as UIImage?
+        menuButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        menuButton.center = CGPoint(x: screenSize.width - menuButton.frame.width/2, y: titleLabel.center.y - 20)
+        menuButton.setImage(image, for: .normal)
+        menuButton.contentMode = .scaleAspectFit
+        menuButton.addTarget(self, action: #selector(FirstViewController.toMenu), for: UIControlEvents.touchUpInside)
+        self.view.addSubview(menuButton)
+    }
+    
+    func createKey(){
+        let center = view.center
+        let image: UIImage = UIImage(named: "Group 1222")!
+        key = UIImageView(image: image)
+        key.frame = CGRect(x: titleLabel.frame.minX , y: titleLabel.frame.maxY, width: 130, height: 30)
+        print(titleLabel.frame.minX)
+        //key.center = CGPoint(x: center.x, y: percentLabel.center.y + circleRadius + 50)
+        key.contentMode = .scaleAspectFit
+        self.view.addSubview(key)
+    }
     
     func createCloseSplashBtn(){
         let image = UIImage(named: "Group 1116") as UIImage?
@@ -147,7 +184,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         filledLabel.text = "Filled"
         self.view.addSubview(filledLabel)
     }
-    
+    /*
     func createStatusImg(){
         let center = view.center
         let image: UIImage = UIImage(named: "Group 987")!
@@ -218,13 +255,36 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         key.contentMode = .scaleAspectFit
         self.view.addSubview(key)
     }
+    */
+    func createParkPopLabel(){
+        let center = view.center
+        parkPopLabel.frame = CGRect(x: 30, y: 0, width: 200, height: 100)
+        parkPopLabel.textAlignment = .left
+        //parkPopLabel.center = CGPoint(x: center.x - screenSize.width/4, y: 100)
+        parkPopLabel.font = UIFont(name: "Avenir-Black", size: 40)
+        parkPopLabel.textColor = UIColor(red: 35.0/255.0, green: 51.0/255.0, blue: 83.0/255.0, alpha: 1.0)
+        parkPopLabel.text = "Parking"
+        self.whiteSquare.addSubview(parkPopLabel)
+    }
+    
+    func createwhichStreetLabel(){
+        let center = view.center
+        whichStreetLabel.frame = CGRect(x: 30, y: 30, width: 200, height: 100)
+        whichStreetLabel.textAlignment = .left
+        //parkPopLabel.center = CGPoint(x: center.x - screenSize.width/4, y: 100)
+        whichStreetLabel.font = UIFont(name: "Avenir-Black", size: 20)
+        whichStreetLabel.textColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+        whichStreetLabel.text = "which steet"
+        self.whiteSquare.addSubview(whichStreetLabel)
+    }
     
     func createClosePopupBtn(){
         // change hard code --
-        let buttonWidth = CGFloat(50)
-        let buttonHeight = CGFloat(50)
-        let image = UIImage(named: "Group 994") as UIImage?
+        let buttonWidth = CGFloat(100)
+        let buttonHeight = CGFloat(100)
+        let image = UIImage(named: "Group 1223") as UIImage?
         closeButton.frame = CGRect(x: whiteSquare.frame.width - 10 - buttonWidth, y: 10, width: buttonWidth, height: buttonHeight)
+        closeButton.center = CGPoint(x: view.center.x, y: lowellButton.center.y + lowellButton.frame.height + 10)
         closeButton.setImage(image, for: .normal)
         closeButton.contentMode = .scaleAspectFit
         closeButton.addTarget(self, action: #selector(FirstViewController.closePopup), for: UIControlEvents.touchUpInside)
@@ -233,10 +293,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     func createHullButton(){
         // change hard code --
-        let buttonWidth = CGFloat(200)
+        let buttonWidth = CGFloat(250)
         let buttonHeight = CGFloat(70)
         
-        let image = UIImage(named: "Group 995") as UIImage?
+        let image = UIImage(named: "Group 1163") as UIImage?
         hullButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 - buttonHeight - 5, width: buttonWidth, height: buttonHeight)
         hullButton.setImage(image, for: .normal)
         hullButton.contentMode = .scaleAspectFit
@@ -246,10 +306,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     func createLowellButton(){
         // change hard code --
-        let buttonWidth = CGFloat(200)
+        let buttonWidth = CGFloat(250)
         let buttonHeight = CGFloat(70)
         
-        let image = UIImage(named: "Group 996") as UIImage?
+        let image = UIImage(named: "Group 1164") as UIImage?
         lowellButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 + 5, width: buttonWidth, height: buttonHeight)
         lowellButton.setImage(image, for: .normal)
         lowellButton.contentMode = .scaleAspectFit
@@ -261,14 +321,14 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let center = view.center
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
-        let image: UIImage = UIImage(named: "Rectangle 6757")!
+        let image: UIImage = UIImage(named: "Rectangle 6841")!
         whiteSquare = UIImageView(image: image)
-        whiteSquare.frame = CGRect(x: center.x - (screenWidth - 10)/2, y: screenHeight, width: screenWidth - 10, height: screenHeight / 2.5)
+        whiteSquare.frame = CGRect(x: center.x - (screenWidth - 10)/2, y: screenHeight, width: screenWidth - 10, height: screenHeight / 2.0)
         whiteSquare.layer.zPosition = 2
         whiteSquare.isUserInteractionEnabled = false
         self.view.addSubview(whiteSquare)
         UIView.animate(withDuration: 0.5, animations: {
-            self.whiteSquare.frame.origin.y -= (screenHeight/2.5 + 5)
+            self.whiteSquare.frame.origin.y -= (screenHeight/2.0 + 5)
         }, completion: {finished in
             self.parkButton.removeFromSuperview()
             self.whiteSquare.isUserInteractionEnabled = true
@@ -296,6 +356,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createHullButton()
         createLowellButton()
         createClosePopupBtn()
+        createParkPopLabel()
+        createwhichStreetLabel()
     }
     // end of code for pop up screen
     
@@ -316,10 +378,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
         // change hard code --
-        let buttonWidth = CGFloat(200)
+        let buttonWidth = CGFloat(250)
         let buttonHeight = CGFloat(100)
         let image = UIImage(named: imageNmae) as UIImage?
-        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/4, width: buttonWidth, height: buttonHeight)
+        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/3.5, width: buttonWidth, height: buttonHeight)
         parkButton.setImage(image, for: .normal)
         parkButton.addTarget(self, action: #selector(FirstViewController.park), for: UIControlEvents.touchUpInside)
         self.view.addSubview(parkButton)
@@ -345,14 +407,14 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
         // The three layers for the large center circle
         trackLayer.path = circlePath.cgPath
-        trackLayer.strokeColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+        trackLayer.strokeColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 251.0/255.0, alpha: 1.0).cgColor
         trackLayer.lineWidth = 20
         trackLayer.lineCap = kCALineCapRound
         trackLayer.fillColor = UIColor.clear.cgColor
         view.layer.addSublayer(trackLayer)
         
         shapeLayer.path = circlePath.cgPath
-        shapeLayer.strokeColor = UIColor(red: 122.0/255.0, green: 203.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+        shapeLayer.strokeColor = UIColor(red: 116.0/255.0, green: 214.0/255.0, blue: 255.0/255.0, alpha: 1.0).cgColor
         shapeLayer.lineWidth = 20
         shapeLayer.lineCap = kCALineCapRound
         shapeLayer.fillColor = UIColor.clear.cgColor
@@ -390,24 +452,28 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     // called to pulll gps data
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        //print("managing location")
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(red: 247.0/255.0, green: 249.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         locationSetup()
-        createParkButton(imageNmae: "Group 1122")
+        createParkButton(imageNmae: "Group 1127")
         createCircle()
-        createBanner()
+        //createBanner()
         createPercentLabel()
-        createKey()
-        createLogo()
-        createSettingsButton()
-        createLearnButton()
-        createDashLabel()
-        createStatusImg()
+        //createLogo()
+        //createSettingsButton()
+        //createLearnButton()
+        //createDashLabel()
+        //createStatusImg()
         createFillLabel()
+        createTitle()
+        createMenuButton()
+        createKey()
         
         // Add shadow to tab bar
         
@@ -446,6 +512,27 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             // And run code in that to upate any UI
             // This is because you are reaching server in background thread, and cant update ui in background
         }
+        
+        self.getSpotsFromServer(location: .Lowell) { (n) in
+            print(n, "spots in lowell")
+            self.lowellTakenSpots = CGFloat(n)
+            self.calculateTotalPercent()
+            
+            print(self.lowellTakenSpots)
+            // IMPORTANT
+            // If updating UI in this closure
+            // Must use
+            //DispatchQueue.main.async {
+            
+            
+            // Very important that each val is 0
+            self.runCircles(parkedOnHull: 0, parkedOnLowell: 0)
+            
+            
+            //}
+            // And run code in that to upate any UI
+            // This is because you are reaching server in background thread, and cant update ui in background
+        }
         /*
         // For updating spots, write to server
         self.updateSpots(location: .Hull) { (error) in
@@ -466,6 +553,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         basicAnimation.fillMode = kCAFillModeForwards
         basicAnimation.isRemovedOnCompletion = false
         shapeLayer2.add(basicAnimation, forKey: "urSoBasic")
+        print(hullTotalPercent)
         basicAnimation.toValue = hullTotalPercent*0.8
         shapeLayer .add(basicAnimation, forKey: "urSoBasic")
     }
@@ -473,9 +561,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         // This is where we calsulate the total percent after someone comes or goes
         streetTakenSpots += comingOrGoing
         streetPercent = streetTakenSpots / streetTotal
-        
-        // NEED TO PUSH streetPercent VALUE   --------------------------------------------------
- 
     }
     func calculateTotalPercent(){
         // This calculates the overall percent of spats taken
@@ -484,9 +569,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func closePopupWindow(showTabBar: Bool){
-        createParkButton(imageNmae: "Group 1122")
+        createParkButton(imageNmae: "Group 1127")
         UIView.animate(withDuration: 0.5, animations: {
-            self.whiteSquare.frame.origin.y += (self.screenSize.height/2.5 + 5)
+            self.whiteSquare.frame.origin.y += (self.screenSize.height/2.0 + 5)
             self.popUpBlackSquare.alpha = 0.0
         }, completion: {finished in
             self.hullButton.removeFromSuperview()
@@ -515,7 +600,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
         // Send test notification
         print("Send test notification")
-        appDelegate?.scheduleNotification()
+        //appDelegate?.scheduleNotification()
         
         
         // Check to see if user is parked
@@ -550,21 +635,27 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             }
             calculateTotalPercent()
             animateCircles()
-            parked(name: "Group 1122", status: false)
+            parked(name: "Group 1127", status: false)
         }
         
+    }
+    
+    func runCircles(parkedOnHull: CGFloat, parkedOnLowell: CGFloat){
+        calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: parkedOnHull)
+        calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: parkedOnLowell)
+        calculateTotalPercent()
+        closePopupWindow(showTabBar: false)
+        animateCircles()
+        self.tabBarController?.tabBar.layer.zPosition = 0
+        //createSplash()
     }
     
     @objc func hullPark() {
         print("Hull")
         if hullTakenSpots < hullTotalSpots{
-            calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: 1)
-            animateCircles()
-            closePopupWindow(showTabBar: false)
-            calculateTotalPercent()
-            parked(name: "Group 1123", status: true)
+            runCircles(parkedOnHull: 1, parkedOnLowell: 0)
             streetParkedOn = "Hull"
-            createSplash()
+            parked(name: "Group 1180", status: true)
             self.updateSpots(adding: 1, location: .Hull) { (error) in
                 if let e = error {
                     // There was an error
@@ -576,13 +667,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     @objc func lowellPark() {
         print("Lowell")
         if lowellTakenSpots < lowellTotalSpots{
-            calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: 1)
-            animateCircles()
-            closePopupWindow(showTabBar: false)
-            calculateTotalPercent()
-            parked(name: "Group 1123", status: true)
+            runCircles(parkedOnHull: 0, parkedOnLowell: 1)
             streetParkedOn = "Lowell"
-            createSplash()
+            parked(name: "Group 1180", status: true)
             self.updateSpots(adding: 1, location: .Lowell) { (error) in
                 if let e = error {
                     // There was an error
@@ -603,6 +690,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     @objc func goToHowto() {
         print("Howto")
+        
+    }
+    @objc func toMenu() {
+        print("toMenu")
+        performSegue(withIdentifier: "openMenu", sender: nil)
         
     }
     

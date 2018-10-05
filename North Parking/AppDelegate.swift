@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import UserNotifications
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -28,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
+        
         // Define Actions
         let hullAction = UNNotificationAction(identifier: "hull", title: "Parked on Hull", options: [])
         let lowellAction = UNNotificationAction(identifier: "lowell", title: "Parked on Lowell", options: [])
@@ -39,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Add the foodCategory to Notification Framwork
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
+        self.scheduleNotification()
+        
         return true
     }
     
@@ -47,11 +51,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current().delegate = self
         
         // Trigger notification in 5 seconds
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let center = CLLocationCoordinate2D(latitude: 42.345733, longitude: -71.207007)
+        let region = CLCircularRegion(center: center, radius: 400.0, identifier: "Newton North")
+        region.notifyOnEntry = true
+        region.notifyOnExit = false
+        let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
         
         let content = UNMutableNotificationContent()
-        content.title = "Park"
-        content.body = "Have you parked your car?"
+        content.title = "Arrived at North"
+        content.body = "Do you want to park your car? 🚗 🚙 🚕"
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "parkingCategory"
         
@@ -59,8 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let url = URL(fileURLWithPath: path)
         
         do {
-            let attachment = try UNNotificationAttachment(identifier: "img", url: url, options: nil)
-            content.attachments = [attachment]
+            //let attachment = try UNNotificationAttachment(identifier: "img", url: url, options: nil)
+            //content.attachments = [attachment]
         }catch{
             print("The attachment could not be loaded")
         }
@@ -119,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        //UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
 
 
