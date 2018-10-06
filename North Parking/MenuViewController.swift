@@ -17,10 +17,11 @@ class MenuViewController: UIViewController {
     var credits = UIButton()
     var contact = UIButton()
     var closeButton = UIButton()
+    let customFont = UIFont(name: "CeraRoundProDEMO-Black", size: 41)
     
     func createRing(){
         let center = view.center
-        let image: UIImage = UIImage(named: "Group 1224")!
+        let image: UIImage = UIImage(named: "Group 1232")!
         ring = UIImageView(image: image)
         ring.frame = CGRect(x: 0, y: 0, width: 500, height: 500)
         ring.center = CGPoint(x: 90, y: screenSize.height - 60)
@@ -32,8 +33,8 @@ class MenuViewController: UIViewController {
         settings.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
         settings.center = CGPoint(x: view.center.x - screenSize.width/10, y: 275)
         settings.setTitle("Settings", for: .normal)
-        settings.titleLabel?.font =  UIFont(name: "Avenir-Black", size: 41)
-        settings.titleLabel?.textColor = .white
+        settings.titleLabel?.font =  customFont
+        settings.setTitleColor(.black, for: .normal)
         settings.contentMode = .scaleAspectFit
         settings.addTarget(self, action: #selector(MenuViewController.toSettings), for: UIControlEvents.touchUpInside)
         settings.contentHorizontalAlignment = .left
@@ -44,8 +45,8 @@ class MenuViewController: UIViewController {
         credits.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
         credits.center = CGPoint(x: view.center.x - screenSize.width/10, y: 350)
         credits.setTitle("Contact", for: .normal)
-        credits.titleLabel?.font =  UIFont(name: "Avenir-Black", size: 41)
-        credits.titleLabel?.textColor = .white
+        credits.titleLabel?.font =  customFont
+        credits.setTitleColor(.black, for: .normal)
         credits.contentMode = .scaleAspectFit
         credits.addTarget(self, action: #selector(MenuViewController.toCredits), for: UIControlEvents.touchUpInside)
         credits.contentHorizontalAlignment = .left
@@ -56,8 +57,8 @@ class MenuViewController: UIViewController {
         contact.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
         contact.center = CGPoint(x: view.center.x - screenSize.width/10, y: 425)
         contact.setTitle("Contact", for: .normal)
-        contact.titleLabel?.font =  UIFont(name: "Avenir-Black", size: 41)
-        contact.titleLabel?.textColor = .white
+        contact.titleLabel?.font =  customFont
+        contact.setTitleColor(.black, for: .normal)
         contact.contentMode = .scaleAspectFit
         contact.addTarget(self, action: #selector(MenuViewController.toContact), for: UIControlEvents.touchUpInside)
         contact.contentHorizontalAlignment = .left
@@ -65,7 +66,7 @@ class MenuViewController: UIViewController {
     }
     
     func createCloseButton(){
-        let image = UIImage(named: "Group 1189") as UIImage?
+        let image = UIImage(named: "Group 1190") as UIImage?
         closeButton.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         closeButton.center = CGPoint(x: screenSize.width - closeButton.frame.width, y: 50)
         closeButton.setImage(image, for: .normal)
@@ -76,7 +77,7 @@ class MenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(red: 82.0/255.0, green: 106.0/255.0, blue: 246.0/255.0, alpha: 1.0)
+        self.view.backgroundColor = UIColor(red: 247.0/255.0, green: 249.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         createRing()
         createSettingsButton()
         createCreditsButton()
