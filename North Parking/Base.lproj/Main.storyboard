@@ -22,7 +22,22 @@
                     <view key="view" contentMode="scaleToFill" id="7gw-if-GsR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Coming Soon!" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Luc-Er-t9u">
+                                <rect key="frame" x="69" y="316" width="236.5" height="35"/>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="CeraRoundProDEMO-Black" family="Cera Round Pro DEMO" pointSize="35"/>
+                                <color key="textColor" red="0.32156862749999998" green="0.41568627450000001" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Luc-Er-t9u" firstAttribute="top" secondItem="eFg-mI-Tkk" secondAttribute="top" constant="296" id="IXw-Bp-iob"/>
+                            <constraint firstItem="eFg-mI-Tkk" firstAttribute="trailing" secondItem="Luc-Er-t9u" secondAttribute="trailing" constant="69.5" id="Vdf-FL-45q"/>
+                            <constraint firstItem="Luc-Er-t9u" firstAttribute="leading" secondItem="eFg-mI-Tkk" secondAttribute="leading" constant="69" id="YZk-2O-VU2"/>
+                            <constraint firstItem="eFg-mI-Tkk" firstAttribute="bottom" secondItem="Luc-Er-t9u" secondAttribute="bottom" constant="267" id="Z0Z-Ux-Y6m"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="eFg-mI-Tkk"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="Group 1133" selectedImage="Group -4" id="zFp-VY-taY"/>
