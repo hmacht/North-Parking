@@ -274,7 +274,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         //parkPopLabel.center = CGPoint(x: center.x - screenSize.width/4, y: 100)
         whichStreetLabel.font = UIFont(name: "Avenir-Black", size: 20)
         whichStreetLabel.textColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
-        whichStreetLabel.text = "which steet"
+        whichStreetLabel.text = "which street"
         self.whiteSquare.addSubview(whichStreetLabel)
     }
     
@@ -542,6 +542,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         }
         */
         
+        if UserDefaults.standard.bool(forKey: "isParked") {
+            // We are already parked so change button
+            self.parked(name: "Group 1180", status: true)
+        }
+        
     }
     
     // ACTIONS
@@ -569,7 +574,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func closePopupWindow(showTabBar: Bool){
-        createParkButton(imageNmae: "Group 1127")
+        if !isParked {
+            createParkButton(imageNmae: "Group 1127")
+        }
         UIView.animate(withDuration: 0.5, animations: {
             self.whiteSquare.frame.origin.y += (self.screenSize.height/2.0 + 5)
             self.popUpBlackSquare.alpha = 0.0
@@ -593,6 +600,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         parkButton.removeFromSuperview()
         createParkButton(imageNmae: name)
         isParked = status
+        
+        UserDefaults.standard.set(status, forKey: "isParked")
         
     }
     
