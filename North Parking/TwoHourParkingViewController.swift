@@ -12,7 +12,7 @@ class TwoHourParkingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor(red: 247.0/255.0, green: 249.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         /*
         self.tabBarController?.tabBar.layer.shadowColor = UIColor.black.cgColor
         self.tabBarController?.tabBar.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)

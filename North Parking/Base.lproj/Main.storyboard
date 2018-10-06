@@ -25,7 +25,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eFg-mI-Tkk"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Group 1115" selectedImage="Group 1115-1" id="zFp-VY-taY"/>
+                    <tabBarItem key="tabBarItem" title="" image="Group 1133" selectedImage="Group -4" id="zFp-VY-taY"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y4S-ID-Zs6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -41,14 +41,35 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Group 1114" selectedImage="Group 1114-1" id="GfG-6e-1JU">
+                    <tabBarItem key="tabBarItem" title="" image="Group 1155" selectedImage="Group 1148" id="GfG-6e-1JU">
                         <color key="badgeColor" red="0.14657577869999999" green="0.1703696847" blue="0.28681799769999999" alpha="1" colorSpace="deviceRGB"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="6mn-ET-V8z" kind="show" identifier="openMenu" id="cPG-9g-LAL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="750" y="-320"/>
+        </scene>
+        <!--Menu View Controller-->
+        <scene sceneID="LWj-83-8zK">
+            <objects>
+                <viewController id="6mn-ET-V8z" customClass="MenuViewController" customModule="North_Parking" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yrV-D6-LRl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="yk1-ML-AIP"/>
+                    </view>
+                    <connections>
+                        <segue destination="9pv-A4-QxB" kind="show" identifier="toHome" id="Q7t-iN-Ksx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NKb-3g-gZa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1748" y="-321"/>
         </scene>
         <!--Second View Controller-->
         <scene sceneID="wg7-f3-ORb">
@@ -60,7 +81,7 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Coming Soon!" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
                                 <rect key="frame" x="69.5" y="316" width="236.5" height="35"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.97647058819999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="CeraRoundProDEMO-Black" family="Cera Round Pro DEMO" pointSize="35"/>
                                 <color key="textColor" red="0.32156862745098036" green="0.41568627450980389" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -81,7 +102,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="Group 1113" selectedImage="Group 1113-1" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="" image="Group 1131" selectedImage="Group 1153" id="cPa-gy-q4n"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -96,7 +117,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.96862745098039216" green="0.97647058823529409" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="selectedImageTintColor" red="0.32156862749999998" green="0.41568627450000001" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
@@ -111,12 +132,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Group 1113" width="28.5" height="25"/>
-        <image name="Group 1113-1" width="28.5" height="25"/>
-        <image name="Group 1114" width="26.5" height="29"/>
-        <image name="Group 1114-1" width="26.5" height="29"/>
-        <image name="Group 1115" width="31" height="31.5"/>
-        <image name="Group 1115-1" width="31" height="31.5"/>
+        <image name="Group -4" width="31" height="31.5"/>
+        <image name="Group 1131" width="28.5" height="25"/>
+        <image name="Group 1133" width="31" height="31.5"/>
+        <image name="Group 1148" width="30" height="30"/>
+        <image name="Group 1153" width="28.5" height="25"/>
+        <image name="Group 1155" width="30" height="30"/>
         <image name="Rectangle 6667" width="419.5" height="239.5"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Q7t-iN-Ksx"/>
+    </inferredMetricsTieBreakers>
 </document>

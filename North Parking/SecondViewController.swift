@@ -12,6 +12,7 @@ class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor(red: 247.0/255.0, green: 249.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         // Do any additional setup after loading the view, typically from a nib.
         /*
         self.tabBarController?.tabBar.layer.shadowColor = UIColor.black.cgColor
