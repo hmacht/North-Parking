@@ -41,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Add the foodCategory to Notification Framwork
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
+        // Remove all current notifications then schedule a new one
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         self.scheduleNotification()
         
         return true
@@ -53,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Trigger notification in 5 seconds
         //let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
         let center = CLLocationCoordinate2D(latitude: 42.345733, longitude: -71.207007)
-        let region = CLCircularRegion(center: center, radius: 400.0, identifier: "Newton North")
+        let region = CLCircularRegion(center: center, radius: 600.0, identifier: "Newton North")
         region.notifyOnEntry = true
         region.notifyOnExit = false
         let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
@@ -93,6 +95,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             NetworkHelper.instance.updateSpots(location: .Hull) { (error) in
                 if let e = error {
                     // TODO- handle error
+                } else {
+                    UserDefaults.standard.set(true, forKey: "isParked")
                 }
             }
         } else { // Vegetable
@@ -100,6 +104,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             NetworkHelper.instance.updateSpots(location: .Lowell) { (error) in
                 if let e = error {
                     // TODO- handle error
+                } else {
+                    UserDefaults.standard.set(true, forKey: "isParked")
                 }
             }
         }
