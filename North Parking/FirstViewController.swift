@@ -84,6 +84,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     // Reference to server
     var ref: DatabaseReference!
     
+    // Activity
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    let refreshButton = UIButton()
+    
     // Create UI
     
     func createPopUpFrame(BgColor: String){
@@ -190,6 +194,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         menuButton.contentMode = .scaleAspectFit
         menuButton.addTarget(self, action: #selector(FirstViewController.toMenu), for: UIControlEvents.touchUpInside)
         self.view.addSubview(menuButton)
+    
     }
     
     func createKey(){
@@ -270,6 +275,20 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         filledLabel.textColor = UIColor(red: 232.0/255.0, green: 232.0/255.0, blue: 232.0/255.0, alpha: 1.0)
         filledLabel.text = "Filled"
         self.view.addSubview(filledLabel)
+        
+        self.activityIndicator.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
+        self.activityIndicator.center = CGPoint(x: percentLabel.center.x, y: filledLabel.center.y + 40)
+        activityIndicator.hidesWhenStopped = true
+        self.view.addSubview(activityIndicator)
+        self.activityIndicator.stopAnimating()
+        
+        // TODO - replace this with an image
+        self.refreshButton.titleLabel?.text = "Refresh"
+        self.refreshButton.backgroundColor = .blue
+        self.refreshButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        self.refreshButton.center = self.activityIndicator.center
+        self.refreshButton.addTarget(self, action: #selector(FirstViewController.refreshSpots), for: .touchUpInside)
+        self.view.addSubview(self.refreshButton)
     }
     /*
     func createStatusImg(){
@@ -586,6 +605,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createMenuButton()
         createKey()
         
+        
         // Add shadow to tab bar
         
         /*
@@ -866,14 +886,57 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func getSpotsFromServer(location: ParkingLocation, completion: @escaping (Int) -> Void) {
+        self.refreshButton.isHidden = true
+        self.activityIndicator.startAnimating()
         ref.child("SpotsTaken").observeSingleEvent(of: .value) { (snapshot) in
             if let v = snapshot.value as? NSDictionary {
+                self.activityIndicator.stopAnimating()
+                self.refreshButton.isHidden = false
                 if let n = v[location.rawValue] as? Int {
                     completion(n)
                 } else {
                     completion(0)
                 }
             }
+        }
+    }
+    
+    @objc func refreshSpots() {
+        self.getSpotsFromServer(location: .Hull) { (n) in
+            print(n, "spots in hull")
+            self.hullTakenSpots = CGFloat(n)
+            self.calculateTotalPercent()
+            
+            print(self.hullTakenSpots)
+            // IMPORTANT
+            // If updating UI in this closure
+            // Must use
+            //DispatchQueue.main.async {
+            self.animateCircles()
+            //}
+            // And run code in that to upate any UI
+            // This is because you are reaching server in background thread, and cant update ui in background
+        }
+        
+        self.getSpotsFromServer(location: .Lowell) { (n) in
+            print(n, "spots in lowell")
+            self.lowellTakenSpots = CGFloat(n)
+            self.calculateTotalPercent()
+            
+            print(self.lowellTakenSpots)
+            // IMPORTANT
+            // If updating UI in this closure
+            // Must use
+            //DispatchQueue.main.async {
+            
+            
+            // Very important that each val is 0
+            self.runCircles(parkedOnHull: 0, parkedOnLowell: 0)
+            
+            
+            //}
+            // And run code in that to upate any UI
+            // This is because you are reaching server in background thread, and cant update ui in background
         }
     }
     

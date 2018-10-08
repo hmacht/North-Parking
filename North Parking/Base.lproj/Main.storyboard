@@ -125,13 +125,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Group -4" width="31" height="31.5"/>
-        <image name="Group 1131" width="28.5" height="25"/>
-        <image name="Group 1133" width="31" height="31.5"/>
+        <image name="Group -4" width="31" height="31"/>
+        <image name="Group 1131" width="28" height="25"/>
+        <image name="Group 1133" width="31" height="31"/>
         <image name="Group 1148" width="30" height="30"/>
-        <image name="Group 1153" width="28.5" height="25"/>
+        <image name="Group 1153" width="28" height="25"/>
         <image name="Group 1155" width="30" height="30"/>
-        <image name="Rectangle 6667" width="419.5" height="239.5"/>
+        <image name="Rectangle 6667" width="419" height="239"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Q7t-iN-Ksx"/>
