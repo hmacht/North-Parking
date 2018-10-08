@@ -85,7 +85,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     func createTitle(){
         let center = view.center
-        titleLabel.frame = CGRect(x: screenSize.width/15, y: 50, width: 200, height: 100)
+        if screenSize.height < 800 {
+            titleLabel.frame = CGRect(x: screenSize.width/15, y: 20, width: 200, height: 100)
+        }else{
+            titleLabel.frame = CGRect(x: screenSize.width/15, y: 50, width: 200, height: 100)
+        }
+        
         titleLabel.textAlignment = .left
         //titleLabel.center = CGPoint(x: center.x - screenSize.width/4, y: 100)
         titleLabel.font = UIFont(name: "Avenir-Black", size: 31)
@@ -258,23 +263,31 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     */
     func createParkPopLabel(){
         let center = view.center
-        parkPopLabel.frame = CGRect(x: 30, y: 0, width: 200, height: 100)
+        parkPopLabel.frame = CGRect(x: 35, y: 30, width: 400, height: 400)
         parkPopLabel.textAlignment = .left
         //parkPopLabel.center = CGPoint(x: center.x - screenSize.width/4, y: 100)
-        parkPopLabel.font = UIFont(name: "Avenir-Black", size: 40)
+        parkPopLabel.font = UIFont(name: "Avenir-Black", size: 39)
         parkPopLabel.textColor = UIColor(red: 35.0/255.0, green: 51.0/255.0, blue: 83.0/255.0, alpha: 1.0)
-        parkPopLabel.text = "Parking"
+        parkPopLabel.text = "Where are \nyou parking?"
+        parkPopLabel.numberOfLines = 2
+        let attributedString = NSMutableAttributedString(string: "Where are \nyou parking?")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 0 // Whatever line spacing you want in points
+        attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        parkPopLabel.attributedText = attributedString
+        parkPopLabel.sizeToFit()
         self.whiteSquare.addSubview(parkPopLabel)
     }
     
     func createwhichStreetLabel(){
         let center = view.center
-        whichStreetLabel.frame = CGRect(x: 30, y: 30, width: 200, height: 100)
+        whichStreetLabel.frame = CGRect(x: 30, y: parkPopLabel.center.y + parkPopLabel.frame.height/2 + 5, width: 200, height: 100)
         whichStreetLabel.textAlignment = .left
         //parkPopLabel.center = CGPoint(x: center.x - screenSize.width/4, y: 100)
-        whichStreetLabel.font = UIFont(name: "Avenir-Black", size: 20)
+        whichStreetLabel.font = UIFont(name: "Avenir-Black", size: 15)
         whichStreetLabel.textColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
-        whichStreetLabel.text = "which street"
+        whichStreetLabel.text = "Park responsibly :)"
+        whichStreetLabel.sizeToFit()
         self.whiteSquare.addSubview(whichStreetLabel)
     }
     
@@ -283,7 +296,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let buttonWidth = CGFloat(100)
         let buttonHeight = CGFloat(100)
         let image = UIImage(named: "Group 1223") as UIImage?
-        closeButton.frame = CGRect(x: whiteSquare.frame.width - 10 - buttonWidth, y: 10, width: buttonWidth, height: buttonHeight)
+        closeButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
         closeButton.center = CGPoint(x: view.center.x, y: lowellButton.center.y + lowellButton.frame.height + 10)
         closeButton.setImage(image, for: .normal)
         closeButton.contentMode = .scaleAspectFit
@@ -296,8 +309,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let buttonWidth = CGFloat(250)
         let buttonHeight = CGFloat(70)
         
-        let image = UIImage(named: "Group 1163") as UIImage?
-        hullButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 - buttonHeight - 5, width: buttonWidth, height: buttonHeight)
+        let image = UIImage(named: "Group 995") as UIImage?
+        hullButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 - buttonHeight + 30, width: buttonWidth, height: buttonHeight)
         hullButton.setImage(image, for: .normal)
         hullButton.contentMode = .scaleAspectFit
         hullButton.addTarget(self, action: #selector(FirstViewController.hullPark), for: UIControlEvents.touchUpInside)
@@ -309,8 +322,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let buttonWidth = CGFloat(250)
         let buttonHeight = CGFloat(70)
         
-        let image = UIImage(named: "Group 1164") as UIImage?
-        lowellButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 + 5, width: buttonWidth, height: buttonHeight)
+        let image = UIImage(named: "Group 996") as UIImage?
+        lowellButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 + 40, width: buttonWidth, height: buttonHeight)
         lowellButton.setImage(image, for: .normal)
         lowellButton.contentMode = .scaleAspectFit
         lowellButton.addTarget(self, action: #selector(FirstViewController.lowellPark), for: UIControlEvents.touchUpInside)
@@ -323,12 +336,13 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let screenHeight = CGFloat(screenSize.height)
         let image: UIImage = UIImage(named: "Rectangle 6841")!
         whiteSquare = UIImageView(image: image)
-        whiteSquare.frame = CGRect(x: center.x - (screenWidth - 10)/2, y: screenHeight, width: screenWidth - 10, height: screenHeight / 2.0)
+        print("-----------\(screenHeight / 1.8)")
+        whiteSquare.frame = CGRect(x: center.x - (screenWidth - 10)/2, y: screenHeight, width: screenWidth - 10, height: 451)
         whiteSquare.layer.zPosition = 2
         whiteSquare.isUserInteractionEnabled = false
         self.view.addSubview(whiteSquare)
         UIView.animate(withDuration: 0.5, animations: {
-            self.whiteSquare.frame.origin.y -= (screenHeight/2.0 + 5)
+            self.whiteSquare.frame.origin.y -= (451 + 5)
         }, completion: {finished in
             self.parkButton.removeFromSuperview()
             self.whiteSquare.isUserInteractionEnabled = true
@@ -364,7 +378,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     func createPercentLabel(){
         let center = view.center
-        let adjectedCenter = CGPoint(x: center.x, y: center.y - 30)
+        let adjectedCenter = CGPoint(x: center.x, y: center.y - 10)
         let customFont = UIFont(name: "CeraRoundProDEMO-Black", size: 50)
         percentLabel.frame = CGRect(x: 0, y: 0, width: 150, height: 100)
         percentLabel.textAlignment = .center
@@ -377,11 +391,15 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     func createParkButton(imageNmae: String){
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
-        // change hard code --
         let buttonWidth = CGFloat(250)
         let buttonHeight = CGFloat(100)
         let image = UIImage(named: imageNmae) as UIImage?
-        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/3.5, width: buttonWidth, height: buttonHeight)
+        let max = screenHeight - (self.tabBarController?.tabBar.frame.height)!
+        let min = (view.center.y - 10) + circleRadius
+        // finds midpoint between bottom of circle and top of tab bar
+        let midpoint = (min + max) / 2
+        parkButton.frame = CGRect(x: screenWidth/2 - buttonWidth/2, y: screenHeight - screenHeight/3.75, width: buttonWidth, height: buttonHeight)
+        parkButton.center = CGPoint(x: view.center.x, y: midpoint)
         parkButton.setImage(image, for: .normal)
         parkButton.addTarget(self, action: #selector(FirstViewController.park), for: UIControlEvents.touchUpInside)
         self.view.addSubview(parkButton)
@@ -402,9 +420,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     func createCircle(){
         circleRadius = (screenSize.width - (screenSize.width/5)) / 2
         let center = view.center
-        let adjectedCenter = CGPoint(x: center.x, y: center.y - 30)
+        let adjectedCenter = CGPoint(x: center.x, y: center.y - 10)
         let circlePath = UIBezierPath(arcCenter: adjectedCenter, radius: circleRadius, startAngle: -CGFloat.pi / 2, endAngle: 2*CGFloat.pi, clockwise: true)
-        
         // The three layers for the large center circle
         trackLayer.path = circlePath.cgPath
         trackLayer.strokeColor = UIColor(red: 239.0/255.0, green: 239.0/255.0, blue: 251.0/255.0, alpha: 1.0).cgColor
@@ -461,8 +478,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(red: 247.0/255.0, green: 249.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         locationSetup()
-        createParkButton(imageNmae: "Group 1127")
         createCircle()
+        createParkButton(imageNmae: "Group 1127")
         //createBanner()
         createPercentLabel()
         //createLogo()
@@ -578,16 +595,14 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             createParkButton(imageNmae: "Group 1127")
         }
         UIView.animate(withDuration: 0.5, animations: {
-            self.whiteSquare.frame.origin.y += (self.screenSize.height/2.0 + 5)
+            self.whiteSquare.frame.origin.y += (451 + 5)
             self.popUpBlackSquare.alpha = 0.0
         }, completion: {finished in
             self.hullButton.removeFromSuperview()
             self.lowellButton.removeFromSuperview()
             self.whiteSquare.removeFromSuperview()
             self.popUpBlackSquare.removeFromSuperview()
-            if showTabBar{
-                self.tabBarController?.tabBar.layer.zPosition = 0
-            }
+            self.tabBarController?.tabBar.layer.zPosition = 0
             self.parkButton.isUserInteractionEnabled = true
             self.canPressPark = true
         })
@@ -653,9 +668,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: parkedOnHull)
         calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: parkedOnLowell)
         calculateTotalPercent()
-        closePopupWindow(showTabBar: false)
         animateCircles()
-        self.tabBarController?.tabBar.layer.zPosition = 0
+        //self.tabBarController?.tabBar.layer.zPosition = 0
         //createSplash()
     }
     
@@ -665,6 +679,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             runCircles(parkedOnHull: 1, parkedOnLowell: 0)
             streetParkedOn = "Hull"
             parked(name: "Group 1180", status: true)
+            closePopupWindow(showTabBar: false)
             self.updateSpots(adding: 1, location: .Hull) { (error) in
                 if let e = error {
                     // There was an error
@@ -679,6 +694,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             runCircles(parkedOnHull: 0, parkedOnLowell: 1)
             streetParkedOn = "Lowell"
             parked(name: "Group 1180", status: true)
+            closePopupWindow(showTabBar: false)
             self.updateSpots(adding: 1, location: .Lowell) { (error) in
                 if let e = error {
                     // There was an error
