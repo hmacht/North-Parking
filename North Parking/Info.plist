@@ -21,9 +21,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow North Parking to acces your location</string>
+	<string>Allow North Parking to access your location so that we can send notifications when you arrive at school.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow North Parking to acces your location</string>
+	<string>Allow North Parking to access your location so that we can send notifications when you arrive at school.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>CeraRound.otf</string>

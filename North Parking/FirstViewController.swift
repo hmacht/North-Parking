@@ -33,6 +33,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var learnButton = UIButton()
     var closeSplashButton = UIButton()
     var menuButton = UIButton()
+    var leavingPopupButton = UIButton()
+    var notLeavingPopupButton = UIButton()
     
     // Layers
     let shapeLayer = CAShapeLayer()
@@ -55,6 +57,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var logo = UIImageView()
     var banner = UIImageView()
     var status = UIImageView()
+    var popUpFrame = UIImageView()
     
     var circle = UIView()
     
@@ -82,6 +85,87 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var ref: DatabaseReference!
     
     // Create UI
+    
+    func createPopUpFrame(){
+        let center = view.center
+        let screenWidth = CGFloat(screenSize.width)
+        let screenHeight = CGFloat(screenSize.height)
+        let image: UIImage = UIImage(named: "Rectangle 6841")!
+        popUpFrame = UIImageView(image: image)
+        popUpFrame.frame = CGRect(x: 0, y: 0, width: 315, height: 350)
+        popUpFrame.center = CGPoint(x: center.x, y: -popUpFrame.frame.height/2)
+        popUpFrame.layer.zPosition = 2
+        popUpFrame.isUserInteractionEnabled = false
+        self.view.addSubview(popUpFrame)
+        UIView.animate(withDuration: 0.5, animations: {
+            self.popUpFrame.center.y += (center.y + self.popUpFrame.frame.width/2)
+        }, completion: {finished in
+            self.popUpFrame.isUserInteractionEnabled = true
+        })
+    }
+    
+    func createLeavingPopupButton(){
+        let image = UIImage(named: "Group 1235") as UIImage?
+        leavingPopupButton.frame = CGRect(x: 0, y: 0, width: 200, height: 60)
+        leavingPopupButton.center = CGPoint(x: leavingPopupButton.frame.width/2 + 15, y: popUpFrame.frame.height - leavingPopupButton.frame.height/2 - 15)
+        leavingPopupButton.setImage(image, for: .normal)
+        leavingPopupButton.contentMode = .scaleAspectFit
+        leavingPopupButton.addTarget(self, action: #selector(FirstViewController.leave), for: UIControlEvents.touchUpInside)
+        self.popUpFrame.addSubview(leavingPopupButton)
+    }
+    func createNotLeavingPopupButton(){
+        let image = UIImage(named: "Group 1236") as UIImage?
+        notLeavingPopupButton.frame = CGRect(x: 0, y: 0, width: 70, height: 60)
+        notLeavingPopupButton.center = CGPoint(x: popUpFrame.frame.width - notLeavingPopupButton.frame.width/2 - 15, y: popUpFrame.frame.height - notLeavingPopupButton.frame.height/2 - 15)
+        notLeavingPopupButton.setImage(image, for: .normal)
+        notLeavingPopupButton.contentMode = .scaleAspectFit
+        notLeavingPopupButton.addTarget(self, action: #selector(FirstViewController.closeCenterPopUp), for: UIControlEvents.touchUpInside)
+        self.popUpFrame.addSubview(notLeavingPopupButton)
+    }
+    
+    var leavingLab = UILabel()
+    var leavingDetailLab = UILabel()
+    
+    func createLeavingLabel(){
+        let center = view.center
+        leavingLab.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        leavingLab.textAlignment = .left
+        leavingLab.center = CGPoint(x: center.x, y: leavingLab.frame.height/2 + 10)
+        leavingLab.font = UIFont(name: "Avenir-Black", size: 36)
+        leavingLab.textColor = .black
+        leavingLab.text = "Are you \nLeaving?"
+        leavingLab.numberOfLines = 2
+        self.popUpFrame.addSubview(leavingLab)
+    }
+    
+    func createLeavingDetailLabel(){
+        let center = view.center
+        leavingDetailLab.frame = CGRect(x: 0, y: 0, width: 250, height: 80)
+        leavingDetailLab.textAlignment = .left
+        leavingDetailLab.center = CGPoint(x: popUpFrame.frame.width/2, y: leavingLab.center.y + leavingLab.frame.height/2 + leavingDetailLab.frame.height/2 + 20)
+        leavingDetailLab.font = UIFont(name: "Avenir-Black", size: 13)
+        leavingDetailLab.textColor = UIColor(red: 154.0/255.0, green: 154.0/255.0, blue: 154.0/255.0, alpha: 1.0)
+        leavingDetailLab.text = "If you are leaving, have a nice day and \nthanks for using the app. Dont forget \nto hit the park button when you come \nback ✌️️"
+        leavingDetailLab.numberOfLines = 4
+        leavingDetailLab.sizeToFit()
+        self.popUpFrame.addSubview(leavingDetailLab)
+    }
+    
+    func creatCenterPopUpBox(){
+        self.tabBarController?.tabBar.layer.zPosition = -1
+        parkButton.isUserInteractionEnabled = false
+        createBlackBackground()
+        createPopUpFrame()
+        createLeavingPopupButton()
+        createNotLeavingPopupButton()
+        createLeavingLabel()
+        createLeavingDetailLabel()
+    }
+    
+    
+    
+    
+    
     
     func createTitle(){
         let center = view.center
@@ -640,26 +724,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         }else{
             print("Leave")
             // Checks what street the user is on
-            if streetParkedOn == "Hull"{
-                // Calculates all the percentages needed
-                // -1 is for subtracting from taken spots var
-                calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: -1)
-                self.updateSpots(adding: -1, location: .Hull) { (error) in
-                    if let e = error {
-                        // There was an error
-                    }
-                }
-            }else{
-                calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: -1)
-                self.updateSpots(adding: -1, location: .Lowell) { (error) in
-                    if let e = error {
-                        // There was an error
-                    }
-                }
-            }
-            calculateTotalPercent()
-            animateCircles()
-            parked(name: "Group 1127", status: false)
+            creatCenterPopUpBox()
+            
         }
         
     }
@@ -722,6 +788,50 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         performSegue(withIdentifier: "openMenu", sender: nil)
         
     }
+    
+    func removeCenterPopUp(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.popUpFrame.center.y -= (self.view.center.y + self.popUpFrame.frame.width/2)
+            self.popUpBlackSquare.alpha = 0.0
+        }, completion: {finished in
+            self.parkButton.isUserInteractionEnabled = true
+            self.popUpFrame.removeFromSuperview()
+            self.popUpBlackSquare.removeFromSuperview()
+            self.tabBarController?.tabBar.layer.zPosition = 0
+            
+        })
+    }
+    
+    @objc func leave() {
+        removeCenterPopUp()
+        if streetParkedOn == "Hull"{
+            // Calculates all the percentages needed
+            // -1 is for subtracting from taken spots var
+            calculatePercent(streetPercent: &hullTotalPercent, streetTotal: &hullTotalSpots, streetTakenSpots: &hullTakenSpots, comingOrGoing: -1)
+            self.updateSpots(adding: -1, location: .Hull) { (error) in
+                if let e = error {
+                    // There was an error
+                }
+            }
+        }else{
+            calculatePercent(streetPercent: &lowellTotalPercent, streetTotal: &lowellTotalSpots, streetTakenSpots: &lowellTakenSpots, comingOrGoing: -1)
+            self.updateSpots(adding: -1, location: .Lowell) { (error) in
+                if let e = error {
+                    // There was an error
+                }
+            }
+        }
+        calculateTotalPercent()
+        animateCircles()
+        parked(name: "Group 1127", status: false)
+    }
+    
+    @objc func closeCenterPopUp() {
+        removeCenterPopUp()
+    }
+    
+    
+    
     
     @objc func closeSplashScreen() {
         print("closeSplash")
