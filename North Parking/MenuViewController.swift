@@ -44,7 +44,7 @@ class MenuViewController: UIViewController {
     func createCreditsButton(){
         credits.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
         credits.center = CGPoint(x: view.center.x - screenSize.width/10, y: settings.center.y + 75)
-        credits.setTitle("Contact", for: .normal)
+        credits.setTitle("Credits", for: .normal)
         credits.titleLabel?.font =  customFont
         credits.setTitleColor(.black, for: .normal)
         credits.contentMode = .scaleAspectFit
@@ -56,7 +56,7 @@ class MenuViewController: UIViewController {
     func createContactButton(){
         contact.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
         contact.center = CGPoint(x: view.center.x - screenSize.width/10, y: credits.center.y + 75)
-        contact.setTitle("Contact", for: .normal)
+        contact.setTitle("Help", for: .normal)
         contact.titleLabel?.font =  customFont
         contact.setTitleColor(.black, for: .normal)
         contact.contentMode = .scaleAspectFit
@@ -110,17 +110,14 @@ class MenuViewController: UIViewController {
     }
     
     @objc func toCredits() {
-        
         print("Credits")
     }
     
     @objc func toContact() {
-        
-        print("Contact")
+        performSegue(withIdentifier: "showHelp", sender: nil)
     }
     
     @objc func close() {
-        
         print("Close")
         dismiss(animated: true, completion: nil)
     }
