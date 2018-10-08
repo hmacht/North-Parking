@@ -86,11 +86,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     
     // Create UI
     
-    func createPopUpFrame(){
+    func createPopUpFrame(BgColor: String){
         let center = view.center
         let screenWidth = CGFloat(screenSize.width)
         let screenHeight = CGFloat(screenSize.height)
-        let image: UIImage = UIImage(named: "Rectangle 6841")!
+        let image: UIImage = UIImage(named: BgColor)!
         popUpFrame = UIImageView(image: image)
         popUpFrame.frame = CGRect(x: 0, y: 0, width: 315, height: 350)
         popUpFrame.center = CGPoint(x: center.x, y: -popUpFrame.frame.height/2)
@@ -130,11 +130,14 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let center = view.center
         leavingLab.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
         leavingLab.textAlignment = .left
-        leavingLab.center = CGPoint(x: center.x, y: leavingLab.frame.height/2 + 10)
+        leavingLab.center = CGPoint(x: 180 , y: leavingLab.frame.height/2 + 20)
+        print(screenSize.width/2)
+        print(center.x)
         leavingLab.font = UIFont(name: "Avenir-Black", size: 36)
         leavingLab.textColor = .black
-        leavingLab.text = "Are you \nLeaving?"
+        leavingLab.text = "Are you\nLeaving?"
         leavingLab.numberOfLines = 2
+        leavingLab.sizeToFit()
         self.popUpFrame.addSubview(leavingLab)
     }
     
@@ -155,17 +158,12 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         self.tabBarController?.tabBar.layer.zPosition = -1
         parkButton.isUserInteractionEnabled = false
         createBlackBackground()
-        createPopUpFrame()
+        createPopUpFrame(BgColor: "Rectangle 6841")
         createLeavingPopupButton()
         createNotLeavingPopupButton()
         createLeavingLabel()
         createLeavingDetailLabel()
     }
-    
-    
-    
-    
-    
     
     func createTitle(){
         let center = view.center
@@ -550,11 +548,23 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
     }
-    
+    var isWithinRange = false
     // called to pulll gps data
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //print("managing location")
+        
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        let coordinate1 = CLLocation(latitude: 42.345262, longitude: -71.207241)
+        let coordinate2 = CLLocation(latitude: locValue.latitude, longitude: locValue.longitude)
+        let distanceInMeters = coordinate1.distance(from: coordinate2) // result is in meters
+        print(distanceInMeters)
+        if distanceInMeters <= 600{
+            print("Within Range")
+            isWithinRange = true
+        }else{
+            print("Out of range")
+            isWithinRange = false
+        }
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
     
@@ -707,25 +717,29 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     @objc func park() {
         
         // Send test notification
-        print("Send test notification")
+        //print("Send test notification")
         //appDelegate?.scheduleNotification()
         
-        
-        // Check to see if user is parked
-        if isParked == false{
-            print("PARK")
-            // prevents user from clicking park button before animation is complete (the white square will freeze without this)
-            if canPressPark{
-                // creates the pop up window
-                createPopUp()
-                canPressPark = false
-            }
-            //isParked = true
-        }else{
-            print("Leave")
-            // Checks what street the user is on
-            creatCenterPopUpBox()
+        if isWithinRange{
             
+            // Check to see if user is parked
+            if isParked == false{
+                print("PARK")
+                // prevents user from clicking park button before animation is complete (the white square will freeze without this)
+                if canPressPark{
+                    // creates the pop up window
+                    createPopUp()
+                    canPressPark = false
+                }
+                //isParked = true
+            }else{
+                print("Leave")
+                // Checks what street the user is on
+                creatCenterPopUpBox()
+                
+            }
+        }else{
+            print("To Far Away")
         }
         
     }
