@@ -46,7 +46,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-320"/>
+            <point key="canvasLocation" x="749.60000000000002" y="-320.68965517241384"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="LWj-83-8zK">
@@ -125,15 +125,16 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Group -4" width="31" height="31"/>
-        <image name="Group 1131" width="28" height="25"/>
-        <image name="Group 1133" width="31" height="31"/>
+        <image name="Group -4" width="31" height="31.5"/>
+        <image name="Group 1131" width="28.5" height="25"/>
+        <image name="Group 1133" width="31" height="31.5"/>
         <image name="Group 1148" width="30" height="30"/>
-        <image name="Group 1153" width="28" height="25"/>
+        <image name="Group 1153" width="28.5" height="25"/>
         <image name="Group 1155" width="30" height="30"/>
-        <image name="Rectangle 6667" width="419" height="239"/>
+        <image name="Rectangle 6667" width="419.5" height="239.5"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="cPG-9g-LAL"/>
         <segue reference="Q7t-iN-Ksx"/>
     </inferredMetricsTieBreakers>
 </document>

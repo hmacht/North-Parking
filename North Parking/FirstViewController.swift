@@ -117,10 +117,16 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         leavingPopupButton.addTarget(self, action: #selector(FirstViewController.leave), for: UIControlEvents.touchUpInside)
         self.popUpFrame.addSubview(leavingPopupButton)
     }
-    func createNotLeavingPopupButton(){
+    func createNotLeavingPopupButton(leaving: Bool){
         let image = UIImage(named: "Group 1236") as UIImage?
         notLeavingPopupButton.frame = CGRect(x: 0, y: 0, width: 70, height: 60)
-        notLeavingPopupButton.center = CGPoint(x: popUpFrame.frame.width - notLeavingPopupButton.frame.width/2 - 15, y: popUpFrame.frame.height - notLeavingPopupButton.frame.height/2 - 15)
+        if leaving{
+            notLeavingPopupButton.center = CGPoint(x: popUpFrame.frame.width - notLeavingPopupButton.frame.width/2 - 15, y: popUpFrame.frame.height - notLeavingPopupButton.frame.height/2 - 15)
+        }else{
+            notLeavingPopupButton.center = CGPoint(x: 157.5, y: popUpFrame.frame.height - notLeavingPopupButton.frame.height/2 - 30)
+        }
+        
+        
         notLeavingPopupButton.setImage(image, for: .normal)
         notLeavingPopupButton.contentMode = .scaleAspectFit
         notLeavingPopupButton.addTarget(self, action: #selector(FirstViewController.closeCenterPopUp), for: UIControlEvents.touchUpInside)
@@ -164,9 +170,30 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createBlackBackground()
         createPopUpFrame(BgColor: "Rectangle 6841")
         createLeavingPopupButton()
-        createNotLeavingPopupButton()
+        createNotLeavingPopupButton(leaving: true)
         createLeavingLabel()
         createLeavingDetailLabel()
+    }
+    var alertDetails = UIImageView()
+    func createAlertDetails(){
+        let center = view.center
+        let image: UIImage = UIImage(named: "Group 1250")!
+        alertDetails = UIImageView(image: image)
+        alertDetails.frame = CGRect(x: 0, y: 0, width: 250, height: 150)
+        alertDetails.center = CGPoint(x: 157, y: alertDetails.frame.height/2 + 70)
+        alertDetails.layer.zPosition = 2
+        alertDetails.contentMode = .scaleAspectFit
+        alertDetails.isUserInteractionEnabled = false
+        self.popUpFrame.addSubview(alertDetails)
+    }
+    
+    func createOutOfRangeAlert(){
+        self.tabBarController?.tabBar.layer.zPosition = -1
+        parkButton.isUserInteractionEnabled = false
+        createBlackBackground()
+        createPopUpFrame(BgColor: "Rectangle 6870")
+        createNotLeavingPopupButton(leaving: false)
+        createAlertDetails()
     }
     
     func createTitle(){
@@ -288,7 +315,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         self.refreshButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         self.refreshButton.center = self.activityIndicator.center
         self.refreshButton.addTarget(self, action: #selector(FirstViewController.refreshSpots), for: .touchUpInside)
-        self.view.addSubview(self.refreshButton)
+        //self.view.addSubview(self.refreshButton)
     }
     /*
     func createStatusImg(){
@@ -586,9 +613,16 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         }
         //print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
-    
+    var scrollView = UIScrollView()
+    var refreshControl: UIRefreshControl!
     override func viewDidLoad() {
         super.viewDidLoad()
+        //let tabBarHeight = self.tabBarController?.tabBar.frame.height
+        //self.tabBarController?.tabBar.layer.zPosition = -1
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height))
+        //scrollView.center = CGPoint(x: view.center.x, y: view.center.y)
+        view.addSubview(scrollView)
+        
         self.view.backgroundColor = UIColor(red: 247.0/255.0, green: 249.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         locationSetup()
         createCircle()
@@ -605,6 +639,15 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         createMenuButton()
         createKey()
         
+        
+        
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshSpots), for: .valueChanged)
+        scrollView.insertSubview(refreshControl, at: 0)
+        scrollView.isScrollEnabled = true
+        scrollView.alwaysBounceVertical = true
+        //scrollView.isUserInteractionEnabled = false
         
         // Add shadow to tab bar
         
@@ -680,6 +723,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
+   
+    
     // ACTIONS
     
     func animateCircles(){
@@ -740,10 +785,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         //print("Send test notification")
         //appDelegate?.scheduleNotification()
         
-        if isWithinRange{
+        
             
-            // Check to see if user is parked
-            if isParked == false{
+        // Check to see if user is parked
+        if isParked == false{
+            if isWithinRange{
                 print("PARK")
                 // prevents user from clicking park button before animation is complete (the white square will freeze without this)
                 if canPressPark{
@@ -753,14 +799,16 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                 }
                 //isParked = true
             }else{
-                print("Leave")
-                // Checks what street the user is on
-                creatCenterPopUpBox()
-                
+                print("To Far Away")
+                createOutOfRangeAlert()
             }
         }else{
-            print("To Far Away")
+            print("Leave")
+            // Checks what street the user is on
+            creatCenterPopUpBox()
+            
         }
+        
         
     }
     
@@ -891,6 +939,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         ref.child("SpotsTaken").observeSingleEvent(of: .value) { (snapshot) in
             if let v = snapshot.value as? NSDictionary {
                 self.activityIndicator.stopAnimating()
+                self.refreshControl.endRefreshing()
                 self.refreshButton.isHidden = false
                 if let n = v[location.rawValue] as? Int {
                     completion(n)
@@ -916,6 +965,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             //}
             // And run code in that to upate any UI
             // This is because you are reaching server in background thread, and cant update ui in background
+            
         }
         
         self.getSpotsFromServer(location: .Lowell) { (n) in
