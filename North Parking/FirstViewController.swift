@@ -158,7 +158,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         leavingDetailLab.center = CGPoint(x: popUpFrame.frame.width/2, y: leavingLab.center.y + leavingLab.frame.height/2 + leavingDetailLab.frame.height/2 + 20)
         leavingDetailLab.font = UIFont(name: "Avenir-Black", size: 13)
         leavingDetailLab.textColor = UIColor(red: 154.0/255.0, green: 154.0/255.0, blue: 154.0/255.0, alpha: 1.0)
-        leavingDetailLab.text = "If you are leaving, have a nice day and \nthanks for using the app. Dont forget \nto hit the park button when you come \nback ✌️️"
+        leavingDetailLab.text = "If you are leaving, have a nice day and \nthanks for using the app. Don't forget \nto hit the park button when you come \nback ✌️️"
         leavingDetailLab.numberOfLines = 4
         leavingDetailLab.sizeToFit()
         self.popUpFrame.addSubview(leavingDetailLab)
@@ -728,6 +728,16 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     // ACTIONS
     
     func animateCircles(){
+        
+        // Smaller bar shows up above the larger one
+        if lowellTotalPercent > hullTotalPercent {
+            shapeLayer.zPosition = 2
+            shapeLayer2.zPosition = 1
+        } else {
+            shapeLayer.zPosition = 1
+            shapeLayer2.zPosition = 2
+        }
+        
         let basicAnimation = CABasicAnimation(keyPath: "strokeEnd")
         basicAnimation.toValue = lowellTotalPercent*0.8
         basicAnimation.duration = 1.5
@@ -736,7 +746,8 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         shapeLayer2.add(basicAnimation, forKey: "urSoBasic")
         print(hullTotalPercent)
         basicAnimation.toValue = hullTotalPercent*0.8
-        shapeLayer .add(basicAnimation, forKey: "urSoBasic")
+        shapeLayer.add(basicAnimation, forKey: "urSoBasic")
+        
     }
     func calculatePercent(streetPercent: inout CGFloat, streetTotal: inout CGFloat, streetTakenSpots: inout CGFloat, comingOrGoing: CGFloat){
         // This is where we calsulate the total percent after someone comes or goes
