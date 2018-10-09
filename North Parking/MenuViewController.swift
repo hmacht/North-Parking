@@ -111,6 +111,7 @@ class MenuViewController: UIViewController {
     
     @objc func toCredits() {
         print("Credits")
+        performSegue(withIdentifier: "toCredits", sender: nil)
     }
     
     @objc func toContact() {

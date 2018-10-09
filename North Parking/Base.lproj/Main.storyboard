@@ -61,11 +61,27 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="show" identifier="toHome" id="Q7t-iN-Ksx"/>
                         <segue destination="sLd-tL-AY3" kind="show" identifier="showHelp" id="nEX-0o-jYT"/>
+                        <segue destination="4Eh-rw-BOa" kind="show" identifier="toCredits" id="ebG-j3-BLo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NKb-3g-gZa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1748" y="-321"/>
+        </scene>
+        <!--Credits View Controller-->
+        <scene sceneID="3KI-GU-QZh">
+            <objects>
+                <viewController id="4Eh-rw-BOa" customClass="CreditsViewController" customModule="North_Parking" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Pz9-WE-SrE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Wxo-yG-xm8"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ipm-AS-EQo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2716" y="-321"/>
         </scene>
         <!--Second View Controller-->
         <scene sceneID="wg7-f3-ORb">
@@ -134,7 +150,6 @@
         <image name="Rectangle 6667" width="419.5" height="239.5"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="cPG-9g-LAL"/>
         <segue reference="Q7t-iN-Ksx"/>
     </inferredMetricsTieBreakers>
 </document>
