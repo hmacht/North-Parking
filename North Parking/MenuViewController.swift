@@ -89,7 +89,7 @@ class MenuViewController: UIViewController {
     @objc func toSettings() {
         
         print("Settings")
-        let alertController = UIAlertController (title: "", message: "Go to settings?", preferredStyle: .actionSheet)
+        let alertController = UIAlertController (title: "Go to Settings", message: "Would you like to view the setting for this app? Doing so will take you out of the app and into your settings.", preferredStyle: .actionSheet)
         
         let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
             guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {

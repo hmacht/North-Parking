@@ -98,7 +98,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         popUpFrame = UIImageView(image: image)
         popUpFrame.frame = CGRect(x: 0, y: 0, width: 315, height: 350)
         popUpFrame.center = CGPoint(x: center.x, y: -popUpFrame.frame.height/2)
-        popUpFrame.layer.zPosition = 2
+        popUpFrame.layer.zPosition = 4
         popUpFrame.isUserInteractionEnabled = false
         self.view.addSubview(popUpFrame)
         UIView.animate(withDuration: 0.5, animations: {
@@ -429,7 +429,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         closeButton.setImage(image, for: .normal)
         closeButton.contentMode = .scaleAspectFit
         closeButton.addTarget(self, action: #selector(FirstViewController.closePopup), for: UIControlEvents.touchUpInside)
-        closeButton.layer.zPosition = 2
+        closeButton.layer.zPosition = 4
         self.whiteSquare.addSubview(closeButton)
     }
     func createHullButton(){
@@ -442,7 +442,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         hullButton.setImage(image, for: .normal)
         hullButton.contentMode = .scaleAspectFit
         hullButton.addTarget(self, action: #selector(FirstViewController.hullPark), for: UIControlEvents.touchUpInside)
-        hullButton.layer.zPosition = 3
+        hullButton.layer.zPosition = 4
         self.whiteSquare.addSubview(hullButton)
     }
     func createLowellButton(){
@@ -455,7 +455,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         lowellButton.setImage(image, for: .normal)
         lowellButton.contentMode = .scaleAspectFit
         lowellButton.addTarget(self, action: #selector(FirstViewController.lowellPark), for: UIControlEvents.touchUpInside)
-        lowellButton.layer.zPosition = 3
+        lowellButton.layer.zPosition = 4
         self.whiteSquare.addSubview(lowellButton)
     }
     func createWhiteSquare(){
@@ -466,7 +466,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         whiteSquare = UIImageView(image: image)
         print("-----------\(screenHeight / 1.8)")
         whiteSquare.frame = CGRect(x: center.x - (screenWidth - 10)/2, y: screenHeight, width: screenWidth - 10, height: 451)
-        whiteSquare.layer.zPosition = 2
+        whiteSquare.layer.zPosition = 4
         whiteSquare.isUserInteractionEnabled = false
         self.view.addSubview(whiteSquare)
         UIView.animate(withDuration: 0.5, animations: {
@@ -485,7 +485,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         popUpBlackSquare.alpha = 0.0
         popUpBlackSquare.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         popUpBlackSquare.center = center
-        popUpBlackSquare.layer.zPosition = 1
+        popUpBlackSquare.layer.zPosition = 3
         self.view.addSubview(popUpBlackSquare)
         UIView.animate(withDuration: 0.5, animations: {
             self.popUpBlackSquare.alpha = 0.5
@@ -790,6 +790,24 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
+    func alertDisabledLocation(){
+        var alertController = UIAlertController (title: "Location Is Disabled", message: "Location must be enabled to allow you to park. We need to check if you are near the school. Select Settings -> Location -> Always", preferredStyle: .alert)
+        
+        var settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+            let settingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
+            if let url = settingsUrl {
+                UIApplication.shared.openURL(url as URL)
+            }
+        }
+        
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alertController.addAction(settingsAction)
+        
+        present(alertController, animated: true, completion: nil);
+    }
+    
     @objc func park() {
         
         // Send test notification
@@ -797,35 +815,41 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         //appDelegate?.scheduleNotification()
         
         if CLLocationManager.locationServicesEnabled() {
-            // Location services are available, so query the user’s location.
-            print("Enabled")
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined, .restricted, .denied:
+                print("No access")
+                alertDisabledLocation()
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access")
+                if isParked == false{
+                    if isWithinRange{
+                        print("PARK")
+                        // prevents user from clicking park button before animation is complete (the white square will freeze without this)
+                        if canPressPark{
+                            // creates the pop up window
+                            createPopUp()
+                            canPressPark = false
+                        }
+                        //isParked = true
+                    }else{
+                        print("To Far Away")
+                        createOutOfRangeAlert()
+                    }
+                }else{
+                    print("Leave")
+                    // Checks what street the user is on
+                    creatCenterPopUpBox()
+                    
+                }
+            }
         } else {
-            // Update your app’s UI to show that the location is unavailable.
-            print("Disabled")
+            print("Location services are not enabled")
+            alertDisabledLocation()
         }
         
             
         // Check to see if user is parked
-        if isParked == false{
-            if isWithinRange{
-                print("PARK")
-                // prevents user from clicking park button before animation is complete (the white square will freeze without this)
-                if canPressPark{
-                    // creates the pop up window
-                    createPopUp()
-                    canPressPark = false
-                }
-                //isParked = true
-            }else{
-                print("To Far Away")
-                createOutOfRangeAlert()
-            }
-        }else{
-            print("Leave")
-            // Checks what street the user is on
-            creatCenterPopUpBox()
-            
-        }
+        
         
         
     }
