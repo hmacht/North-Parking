@@ -796,6 +796,13 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         //print("Send test notification")
         //appDelegate?.scheduleNotification()
         
+        if CLLocationManager.locationServicesEnabled() {
+            // Location services are available, so query the user’s location.
+            print("Enabled")
+        } else {
+            // Update your app’s UI to show that the location is unavailable.
+            print("Disabled")
+        }
         
             
         // Check to see if user is parked
@@ -844,6 +851,11 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                     // There was an error
                 }
             }
+        } else {
+            let alert = UIAlertController(title: "Full", message: "There are no more spots on Hull :(", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true)
         }
     }
     
@@ -859,8 +871,13 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
                     // There was an error
                 }
             }
+        } else {
+            let alert = UIAlertController(title: "Full", message: "There are no more spots on Lowell :(", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true)
         }
-    }
+    } 
     
     @objc func closePopup() {
         print("close")
