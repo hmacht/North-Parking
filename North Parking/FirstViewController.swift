@@ -317,78 +317,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         self.refreshButton.addTarget(self, action: #selector(FirstViewController.refreshSpots), for: .touchUpInside)
         //self.view.addSubview(self.refreshButton)
     }
-    /*
-    func createStatusImg(){
-        let center = view.center
-        let image: UIImage = UIImage(named: "Group 987")!
-        status = UIImageView(image: image)
-        status.frame = CGRect(x: 0, y: 0, width: 65, height: 30)
-        status.center = CGPoint(x: screenSize.width - (status.frame.width/2) - 10, y: dashboardLabel.center.y)
-        status.contentMode = .scaleAspectFit
-        self.view.addSubview(status)
-    }
-    
-    func createDashLabel(){
-        let center = view.center
-        let customFont = UIFont(name: "CeraRoundProDEMO-Black", size: 31)
-        dashboardLabel.frame = CGRect(x: 20, y: 0, width: 200, height: 100)
-        dashboardLabel.textAlignment = .left
-        dashboardLabel.center.y = banner.center.y + banner.frame.height/2 + 40
-        dashboardLabel.font = customFont
-        dashboardLabel.text = "Dashboard"
-        self.view.addSubview(dashboardLabel)
-    }
-    
-    func createLogo(){
-        let center = view.center
-        let image: UIImage = UIImage(named: "Group 988")!
-        logo = UIImageView(image: image)
-        logo.frame = CGRect(x: 0, y: 0, width: 50, height: 100)
-        logo.center = CGPoint(x: center.x, y: banner.center.y + 10)
-        logo.contentMode = .scaleAspectFit
-        self.view.addSubview(logo)
-    }
-    
-    func createSettingsButton(){
-        // change hard code --
-        let buttonWidth = CGFloat(50)
-        let buttonHeight = CGFloat(50)
-        let image = UIImage(named: "Group 990") as UIImage?
-        settingsButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
-        settingsButton.center = CGPoint(x: logo.center.x - screenSize.width/3, y: logo.center.y)
-        settingsButton.setImage(image, for: .normal)
-        settingsButton.contentMode = .scaleAspectFit
-        settingsButton.addTarget(self, action: #selector(FirstViewController.goToSettings), for: UIControlEvents.touchUpInside)
-        settingsButton.layer.zPosition = 3
-        self.view.addSubview(settingsButton)
-    }
-    
-    func createLearnButton(){
-        // change hard code --
-        let buttonWidth = CGFloat(50)
-        let buttonHeight = CGFloat(50)
-        
-        let image = UIImage(named: "Group 989") as UIImage?
-        learnButton.frame = CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight)
-        learnButton.center = CGPoint(x: logo.center.x + screenSize.width/3, y: logo.center.y)
-        learnButton.setImage(image, for: .normal)
-        learnButton.contentMode = .scaleAspectFit
-        learnButton.addTarget(self, action: #selector(FirstViewController.goToHowto), for: UIControlEvents.touchUpInside)
-        learnButton.layer.zPosition = 3
-        self.view.addSubview(learnButton)
-    }
-    
-    // This is for the popup screen
-    func createKey(){
-        let center = view.center
-        let image: UIImage = UIImage(named: "Group 991")!
-        key = UIImageView(image: image)
-        key.frame = CGRect(x: 0, y: 0, width: 130, height: 30)
-        key.center = CGPoint(x: center.x, y: percentLabel.center.y + circleRadius + 50)
-        key.contentMode = .scaleAspectFit
-        self.view.addSubview(key)
-    }
-    */
+
     func createParkPopLabel(){
         let center = view.center
         parkPopLabel.frame = CGRect(x: 35, y: 30, width: 400, height: 400)
@@ -615,8 +544,22 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     }
     var scrollView = UIScrollView()
     var refreshControl: UIRefreshControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        DispatchQueue.main.async {
+            var defaults = UserDefaults.standard
+            print(defaults.object(forKey: "isFirstTime"))
+            if defaults.object(forKey: "isFirstTime") == nil {
+                defaults.set("No", forKey:"isFirstTime")
+                defaults.synchronize()
+                self.performSegue(withIdentifier: "toTutorial", sender: nil)
+            }
+        }
+        
+        
+        
         //let tabBarHeight = self.tabBarController?.tabBar.frame.height
         //self.tabBarController?.tabBar.layer.zPosition = -1
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height))
@@ -908,15 +851,6 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         closePopupWindow(showTabBar: true)
     }
     
-    @objc func goToSettings() {
-        print("Settings")
-        
-    }
-    
-    @objc func goToHowto() {
-        print("Howto")
-        
-    }
     @objc func toMenu() {
         print("toMenu")
         performSegue(withIdentifier: "openMenu", sender: nil)
