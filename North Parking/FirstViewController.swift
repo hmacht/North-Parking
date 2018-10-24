@@ -69,7 +69,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var circleRadius: CGFloat = 0
     
     var totalPercent: CGFloat = 0
-    var totalSpots: CGFloat = 83
+    var totalSpots: CGFloat = 73
     var takenSpots: CGFloat = 0
     
     var hullTotalPercent: CGFloat = 0
@@ -77,7 +77,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
     var hullTakenSpots: CGFloat = 0
     
     var lowellTotalPercent: CGFloat = 0
-    var lowellTotalSpots: CGFloat = 30
+    var lowellTotalSpots: CGFloat = 20
     var lowellTakenSpots: CGFloat = 0
     
     
@@ -379,7 +379,7 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         let buttonWidth = CGFloat(250)
         let buttonHeight = CGFloat(70)
         
-        let image = UIImage(named: "Group 996") as UIImage?
+        let image = UIImage(named: "Group 1164-1") as UIImage?
         lowellButton.frame = CGRect(x: whiteSquare.frame.width/2 - buttonWidth / 2, y: whiteSquare.frame.height/2 + 40, width: buttonWidth, height: buttonHeight)
         lowellButton.setImage(image, for: .normal)
         lowellButton.contentMode = .scaleAspectFit
@@ -607,7 +607,10 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         // NEED TO PULL lowellTakenSpots VALUE --------------------------------------------------
         // NEED TO PULL totalPercent VALUE --------------------------
         
-        
+        if UserDefaults.standard.bool(forKey: "isParked") {
+            // We are already parked so change button
+            self.parked(name: "Group 1180", status: true)
+        }
         
         
         self.ref = Database.database().reference()
@@ -645,11 +648,18 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
             // Very important that each val is 0
             self.runCircles(parkedOnHull: 0, parkedOnLowell: 0)
             
+            if self.takenSpots == 0{
+                if UserDefaults.standard.bool(forKey: "isParked") {
+                    // We are already parked so change button
+                    self.parked(name: "Group 1127", status: false)
+                }
+            }
             
             //}
             // And run code in that to upate any UI
             // This is because you are reaching server in background thread, and cant update ui in background
         }
+        
         /*
         // For updating spots, write to server
         self.updateSpots(location: .Hull) { (error) in
@@ -659,10 +669,9 @@ class FirstViewController: UIViewController, CLLocationManagerDelegate {
         }
         */
         
-        if UserDefaults.standard.bool(forKey: "isParked") {
-            // We are already parked so change button
-            self.parked(name: "Group 1180", status: true)
-        }
+       
+ 
+        
         
     }
     
